@@ -694,5 +694,64 @@ if ('serviceWorker' in navigator) {
   });
 }
 </script>
+
+<script>
+/* REPARACIÓN DEFINITIVA DESPLEGABLE DE EMPLEADOS EN ACREDITACIÓN */
+(function(){
+  function ensureLoginEmployees(){
+    var select = document.getElementById('employeeSelect') || document.querySelector('select');
+    if(!select) return;
+
+    var employees = [];
+
+    try {
+      if (window.state && Array.isArray(window.state.employees)) {
+        employees = window.state.employees.filter(function(e){ return !e.blocked; });
+      }
+    } catch(e){}
+
+    if(!employees.length){
+      employees = [
+        {id:'admin', name:'Administrador', pass:'1234', role:'admin'},
+        {id:'susana', name:'Susana', pass:'1234', role:'employee'}
+      ];
+    }
+
+    var current = select.value || localStorage.getItem('ynea_saved_employee_selected') || '';
+    select.innerHTML = employees.map(function(e){
+      return '<option value="'+e.id+'">'+e.name+'</option>';
+    }).join('');
+
+    if(current && employees.some(function(e){ return e.id === current; })){
+      select.value = current;
+    }
+
+    var pass = document.getElementById('pass') || document.querySelector('input[type="password"]');
+    if(pass){
+      try {
+        var saved = JSON.parse(localStorage.getItem('ynea_saved_employee_keys') || '{}');
+        if(saved[select.value]) pass.value = saved[select.value];
+      } catch(e){}
+    }
+
+    select.onchange = function(){
+      localStorage.setItem('ynea_saved_employee_selected', select.value);
+      var pass = document.getElementById('pass') || document.querySelector('input[type="password"]');
+      if(pass){
+        try {
+          var saved = JSON.parse(localStorage.getItem('ynea_saved_employee_keys') || '{}');
+          pass.value = saved[select.value] || '';
+        } catch(e){}
+      }
+    };
+  }
+
+  document.addEventListener('DOMContentLoaded', ensureLoginEmployees);
+  window.addEventListener('load', ensureLoginEmployees);
+  setTimeout(ensureLoginEmployees, 300);
+  setTimeout(ensureLoginEmployees, 1000);
+})();
+</script>
+
 </body>
 </html>
