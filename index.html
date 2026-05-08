@@ -29,6 +29,39 @@
     .miniCal.month{grid-template-columns:repeat(7,minmax(92px,1fr))}
     .miniDay{border:1px solid var(--line);border-radius:16px;background:#fff;padding:10px;min-height:96px}
     .miniDay h4{margin:0 0 6px;font-size:13px;color:var(--muted);font-weight:900}.miniEvent{font-size:12px;margin:4px 0;padding:5px 7px;border-radius:10px;background:#EEF9F4;color:#234537}.miniEvent.salida{background:#FFF0EA;color:#6A2E21}.miniEmpty{color:#98a59f;font-size:12px}.miniSummary{font-size:12px;color:var(--muted);font-weight:800;margin-top:6px}
+
+
+    /* Corrección móvil: escala compacta y sin elementos gigantes */
+    @media(max-width:600px){
+      html,body{width:100%;max-width:100%;overflow-x:hidden;font-size:14px;background:#F8FCFA}
+      body{min-height:100svh}
+      .login{min-height:100svh;padding:14px;align-items:center}
+      .loginbox{width:100%;max-width:360px;padding:18px 16px;border-radius:20px;box-shadow:0 10px 28px rgba(132,207,178,.16)}
+      .logoLogin{width:170px;max-width:64%;margin-bottom:4px}
+      .control{font-size:12px;letter-spacing:.20em;margin-bottom:14px}
+      .form{gap:10px}.form label{font-size:12px}.form input,.form select,input,select{padding:10px;border-radius:12px;font-size:14px}
+      button{padding:10px 12px;border-radius:12px;font-size:14px}
+      .top{position:sticky;top:0;display:flex;gap:8px;padding:7px 8px;align-items:center;min-height:54px}
+      .brand{gap:7px;min-width:0;flex:1}.brand img{width:76px}.brand b{font-size:12px}.brand span{display:none}
+      .user{margin-left:0;font-size:11px;gap:6px;white-space:nowrap}.user button{padding:7px 9px;font-size:12px}
+      .wrap{width:100%;max-width:100%;padding:8px}.grid{gap:10px}.cols2,.cols3{grid-template-columns:1fr}
+      .card{padding:12px;border-radius:16px;box-shadow:0 8px 22px rgba(132,207,178,.13)}
+      h2{font-size:18px;margin-bottom:8px}h3{font-size:15px;margin-bottom:8px}p{margin:6px 0}.muted{font-size:12px}
+      .time{font-size:30px;line-height:1.1}.actions{display:grid;grid-template-columns:1fr;gap:8px}.actions button{width:100%}
+      .notice{font-size:12px;line-height:1.35;padding:10px;border-radius:12px}
+      .pill{font-size:11px;padding:4px 8px}
+      table{font-size:12px;border-spacing:0 6px}th{font-size:10px}td{padding:8px;white-space:nowrap}
+      .miniCal{grid-template-columns:repeat(7,120px);gap:6px;min-width:880px}.miniDay{padding:8px;min-height:82px;border-radius:12px}.miniEvent{font-size:11px;padding:4px 6px}.miniSummary{font-size:11px}
+      .cal{grid-template-columns:52px repeat(7,120px);font-size:12px}.cell{min-height:50px;padding:5px}.event{font-size:11px;padding:5px}
+      .kpi b{font-size:22px}
+      .toast{display:none!important}
+    }
+    @media(max-width:600px){
+      .employee .top .brand div{display:none}
+      .employee .top .brand img{width:86px}
+      .employee .wrap{padding-top:8px}
+    }
+
   </style>
 </head>
 <body>
@@ -198,7 +231,7 @@
   function startOfWeek(d){var x=new Date(d),day=(x.getDay()+6)%7;x.setDate(x.getDate()-day);x.setHours(0,0,0,0);return x} function moveWeek(n){weekStart.setDate(weekStart.getDate()+7*n);renderCalendar()} function todayWeekFn(){weekStart=startOfWeek(new Date());renderCalendar()} function renderCalendar(){if(!el('calGrid'))return;var days=[],i;for(i=0;i<7;i++){var d=new Date(weekStart);d.setDate(d.getDate()+i);days.push(d)}el('weekLabel').textContent='Semana del '+fmtDate(days[0])+' al '+fmtDate(days[6]);var html='<div class="cell head">Hora</div>';for(i=0;i<days.length;i++)html+='<div class="cell head">'+days[i].toLocaleDateString('es-ES',{weekday:'short',day:'2-digit'})+'</div>';for(var h=7;h<=21;h++){html+='<div class="cell hour">'+String(h).padStart(2,'0')+':00</div>';for(var j=0;j<days.length;j++){var ds=dkey(days[j]),ev='';for(var k=0;k<state.punches.length;k++){var p=state.punches[k],pd=new Date(p.time),e=findEmp(p.employeeId)||{};if(dkey(p.time)===ds&&pd.getHours()===h)ev+='<div class="event">'+fmtTime(p.time)+' '+esc(e.name||'')+'<br>'+label(p.type)+'</div>'}if(h===7){for(var aa=0;aa<state.absences.length;aa++){var ab=state.absences[aa],ee=ab.employeeId==='all'?{name:'Todos'}:(findEmp(ab.employeeId)||{});if(ds>=ab.start&&ds<=ab.end)ev+='<div class="event">'+esc(ab.type)+'<br>'+esc(ee.name||'')+'</div>'}}html+='<div class="cell">'+ev+'</div>'}}el('calGrid').innerHTML=html}
   function exportCSV(){var rows=[['Fecha','Hora','Empleado','Email','Evento','Dispositivo','Clasificacion','Huella']];for(var i=0;i<state.punches.length;i++){var p=state.punches[i],e=findEmp(p.employeeId)||{};rows.push([fmtDate(p.time),fmtTime(p.time),e.name||'',e.email||'',label(p.type),p.device,extraLabel(p).replace(/<[^>]*>/g,''),p.hash])}var csv=rows.map(function(r){return r.map(function(x){return '"'+String(x).replace(/"/g,'""')+'"'}).join(';')}).join('\n');var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='Ynea_Control_horario.csv';a.click()}
   function bind(){el('loginBtn').onclick=login;el('logoutBtn').onclick=logout;el('tabAdmin').onclick=function(){tab('admin')};el('tabCalendar').onclick=function(){tab('calendar')};el('tabLegal').onclick=function(){tab('legal')};el('tabExport').onclick=function(){tab('export')};el('pEntrada').onclick=function(){punch('entrada')};el('pSalida').onclick=function(){punch('salida')};el('pPausaIni').onclick=function(){punch('pausa_inicio')};el('pPausaFin').onclick=function(){punch('pausa_fin')};el('addEmpBtn').onclick=addEmployee;el('scheduleMode').onchange=modeSchedule;el('addSchBtn').onclick=addSchedule;el('addExtraBtn').onclick=addExtra;el('addAbsenceBtn').onclick=addAbsence;el('scheduleViewMode').onchange=renderSchedules;el('scheduleEmp').onchange=renderSchedules;el('prevWeek').onclick=function(){moveWeek(-1)};el('todayWeek').onclick=todayWeekFn;el('nextWeek').onclick=function(){moveWeek(1)};el('exportBtn').onclick=exportCSV;el('pass').addEventListener('keydown',function(e){if(e.key==='Enter')login()});el('employeeSelect').addEventListener('change',fillSavedPass)}
-  document.addEventListener('DOMContentLoaded',async function(){await load();populateEmployeeSelect();bind();modeSchedule();renderClock();setInterval(renderClock,1000);setInterval(checkReminders,60000);setTimeout(function(){toast('Ynea Control Horario',cloudStatus==='nube'?'Sincronización en la nube activada':'Modo local pendiente de Supabase')},500)});
+  document.addEventListener('DOMContentLoaded',async function(){await load();populateEmployeeSelect();bind();modeSchedule();renderClock();setInterval(renderClock,1000);setInterval(checkReminders,60000)});
 })();
 </script>
 

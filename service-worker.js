@@ -1,4 +1,4 @@
-const CACHE_NAME = 'ynea-control-horario-pwa-v1';
+const CACHE_NAME = 'ynea-control-horario-pwa-v2-mobile-fix';
 const APP_ASSETS = [
   '/',
   '/index.html',
