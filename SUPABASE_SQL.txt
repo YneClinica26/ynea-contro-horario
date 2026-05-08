@@ -1,0 +1,31 @@
+-- Ynea Control Horario: tabla de sincronización en tiempo real
+-- Copia todo este texto en Supabase > SQL Editor > New query > Run
+
+create table if not exists public.ynea_app_state (
+  id text primary key,
+  data jsonb not null,
+  updated_at timestamptz not null default now()
+);
+
+alter table public.ynea_app_state enable row level security;
+
+drop policy if exists "Ynea app read" on public.ynea_app_state;
+drop policy if exists "Ynea app insert" on public.ynea_app_state;
+drop policy if exists "Ynea app update" on public.ynea_app_state;
+
+create policy "Ynea app read" on public.ynea_app_state
+for select to anon using (true);
+
+create policy "Ynea app insert" on public.ynea_app_state
+for insert to anon with check (true);
+
+create policy "Ynea app update" on public.ynea_app_state
+for update to anon using (true) with check (true);
+
+insert into public.ynea_app_state (id, data, updated_at)
+values ('main', '{}'::jsonb, now())
+on conflict (id) do nothing;
+
+-- Muy importante para tiempo real:
+-- Después de ejecutar esto, ve a Database > Replication > Tables
+-- y activa Realtime para la tabla public.ynea_app_state si no aparece activado.
