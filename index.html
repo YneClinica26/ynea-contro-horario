@@ -86,6 +86,59 @@ td:last-child{border-right:1px solid var(--line);border-radius:0 10px 10px 0}
   .event{font-size:8px;line-height:1.1;padding:3px;max-height:34px;overflow:hidden}
 }
 @media(max-width:390px){.actions{grid-template-columns:1fr}.loginbox{max-width:310px}}
+
+/* ===== CORRECCIÓN REAL ADMINISTRADOR EN MÓVIL ===== */
+@media(max-width:900px){
+  body.admin-user .tabs{
+    display:flex!important;
+    flex-wrap:nowrap!important;
+    overflow-x:auto!important;
+    gap:6px!important;
+    padding-bottom:8px!important;
+  }
+  body.admin-user .tabs button{
+    display:inline-flex!important;
+    flex:0 0 auto!important;
+    font-size:11px!important;
+    min-height:32px!important;
+    padding:7px 9px!important;
+    white-space:nowrap!important;
+  }
+  body.admin-user .adminOnly{
+    display:block!important;
+  }
+  body.admin-user .tabs .adminOnly{
+    display:inline-flex!important;
+  }
+  body.employee-user .adminOnly{
+    display:none!important;
+  }
+}
+
+
+@media(max-width:900px){
+  body.admin-user #adminMobileSelectBox{
+    display:block!important;
+  }
+  body.admin-user #adminMobileSelect{
+    width:100%!important;
+    border:1px solid var(--line)!important;
+    background:#fff!important;
+    border-radius:12px!important;
+    padding:9px!important;
+    font-size:13px!important;
+  }
+}
+
+
+/* ADMINISTRADOR SIN PANEL EMPLEADO */
+body.admin-user [data-tab="home"]{
+  display:none!important;
+}
+body.admin-user #home{
+  display:none!important;
+}
+
 </style>
 </head>
 <body>
@@ -121,6 +174,16 @@ td:last-child{border-right:1px solid var(--line);border-radius:0 10px 10px 0}
       <button data-tab="legal" class="adminOnly" type="button">Registro legal</button>
       <button data-tab="export" class="adminOnly" type="button">Exportaciones</button>
     </nav>
+
+    <div id="adminMobileSelectBox" class="adminOnly" style="display:none;margin-bottom:10px">
+      <select id="adminMobileSelect">
+        
+        <option value="admin">Administrador</option>
+        <option value="calendar">Calendario</option>
+        <option value="legal">Registro legal</option>
+        <option value="export">Exportaciones</option>
+      </select>
+    </div>
 
     <section id="home" class="page grid cols2">
       <div class="card">
@@ -278,8 +341,18 @@ function save(){ensure();localStorage.setItem(LS,JSON.stringify(state)); if(supa
 function populateLogin(){let sel=$('employeeSelect'); if(!sel)return; let cur=sel.value||localStorage.getItem(SEL_LS)||''; sel.innerHTML=state.employees.filter(e=>!e.blocked).map(e=>`<option value="${e.id}">${esc(e.name)}</option>`).join(''); if(cur&&emp(cur)&&!emp(cur).blocked)sel.value=cur; fillPass();}
 function fillPass(){let sel=$('employeeSelect'), p=$('pass'); if(!sel||!p)return; localStorage.setItem(SEL_LS,sel.value); try{let keys=JSON.parse(localStorage.getItem(KEY_LS)||'{}'); if(keys[sel.value])p.value=keys[sel.value];}catch(e){}}
 function savePass(id,pass){try{let keys=JSON.parse(localStorage.getItem(KEY_LS)||'{}'); keys[id]=pass; localStorage.setItem(KEY_LS,JSON.stringify(keys)); localStorage.setItem(SEL_LS,id)}catch(e){}}
-function login(){let id=$('employeeSelect').value, pass=$('pass').value||'', e=emp(id); if(!e){$('loginError').textContent='Selecciona un empleado';return} if(e.blocked){$('loginError').textContent='Empleado bloqueado: '+(e.blockReason||'');return} if(String(e.pass)!==String(pass)){$('loginError').textContent='Clave incorrecta';return} user=e; savePass(id,pass); $('loginError').textContent=''; $('login').classList.add('hidden'); $('app').classList.remove('hidden'); document.body.classList.toggle('employee',e.role!=='admin'); $('who').textContent=e.name; tab('home'); requestNotifications(); renderAll();}
-function logout(){user=null;$('app').classList.add('hidden');$('login').classList.remove('hidden');populateLogin();}
+function login(){let id=$('employeeSelect').value, pass=$('pass').value||'', e=emp(id); if(!e){$('loginError').textContent='Selecciona un empleado';return} if(e.blocked){$('loginError').textContent='Empleado bloqueado: '+(e.blockReason||'');return} if(String(e.pass)!==String(pass)){$('loginError').textContent='Clave incorrecta';return} user=e; savePass(id,pass); $('loginError').textContent=''; $('login').classList.add('hidden'); $('app').classList.remove('hidden'); 
+document.body.classList.toggle('employee', e.role !== 'admin');
+document.body.classList.toggle('employee-user', e.role !== 'admin');
+document.body.classList.toggle('admin-user', e.role === 'admin');
+ $('who').textContent=e.name; 
+if(e.role==='admin'){
+  tab('admin');
+}else{
+  tab('home');
+}
+ requestNotifications(); renderAll();}
+function logout(){user=null;document.body.classList.remove('admin-user','employee-user','employee');$('app').classList.add('hidden');$('login').classList.remove('hidden');populateLogin();}
 function tab(id){document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));$(id).classList.remove('hidden');document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('active',b.dataset.tab===id));renderAll();}
 function requestNotifications(){if('Notification'in window && Notification.permission==='default')Notification.requestPermission().catch(()=>{})}
 function notify(msg){toast(msg); if('Notification'in window && Notification.permission==='granted')new Notification('Control Horario',{body:msg,icon:'/icon-192.png'})}
@@ -330,5 +403,47 @@ document.addEventListener('DOMContentLoaded',async()=>{await load(); populateLog
 <script>
 if('serviceWorker' in navigator) window.addEventListener('load',()=>navigator.serviceWorker.register('/service-worker.js').catch(()=>{}));
 </script>
+
+<script>
+/* Selector administrador móvil */
+(function(){
+  function bindAdminMobileSelector(){
+    var sel = document.getElementById('adminMobileSelect');
+    if(!sel || sel.dataset.bound) return;
+    sel.dataset.bound = '1';
+    sel.addEventListener('change', function(){
+      if(typeof tab === 'function'){
+        tab(sel.value);
+      }else{
+        document.querySelectorAll('.page').forEach(function(p){p.classList.add('hidden')});
+        var page = document.getElementById(sel.value);
+        if(page) page.classList.remove('hidden');
+      }
+    });
+  }
+  document.addEventListener('DOMContentLoaded', bindAdminMobileSelector);
+  window.addEventListener('load', bindAdminMobileSelector);
+  setTimeout(bindAdminMobileSelector, 500);
+})();
+</script>
+
+
+<script>
+/* ADMINISTRADOR DIRECTO A ADMIN */
+(function(){
+  function adminDefault(){
+    if(window.user && window.user.role==='admin'){
+      var sel=document.getElementById('adminMobileSelect');
+      if(sel && sel.value==='home'){
+        sel.value='admin';
+      }
+    }
+  }
+  document.addEventListener('DOMContentLoaded', adminDefault);
+  window.addEventListener('load', adminDefault);
+  setTimeout(adminDefault,500);
+})();
+</script>
+
 </body>
 </html>
