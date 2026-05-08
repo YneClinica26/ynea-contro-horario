@@ -11,12 +11,9 @@
 <link rel="manifest" href="/manifest.webmanifest">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <style>
-:root{
-  --green:#9ED5B8; --green2:#EAF8F1; --green3:#6FAF8E; --line:#D8EEE4;
-  --ink:#20382d; --muted:#6d8177; --blue:#7EA7E6; --red:#D97B7B; --bg:#F6FBF8;
-}
+:root{--green:#9ED5B8;--green2:#EAF8F1;--green3:#6FAF8E;--line:#D8EEE4;--ink:#20382d;--muted:#6d8177;--blue:#7EA7E6;--red:#D97B7B;--bg:#F6FBF8}
 *{box-sizing:border-box}
-html,body{margin:0;width:100%;max-width:100%;overflow-x:hidden;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--ink);-webkit-text-size-adjust:100%}
+html,body{margin:0;width:100%;max-width:100%;overflow-x:hidden;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--ink);-webkit-text-size-adjust:100%;text-size-adjust:100%}
 .hidden{display:none!important}
 .login{min-height:100svh;display:flex;align-items:center;justify-content:center;padding:18px}
 .card{background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 8px 24px rgba(64,130,96,.12);padding:18px;min-width:0}
@@ -28,143 +25,58 @@ label{font-size:12px;color:var(--muted);font-weight:700}
 input,select,textarea,button{font:inherit;border-radius:12px}
 input,select,textarea{width:100%;border:1px solid var(--line);background:#fff;padding:10px 11px;min-height:40px;color:var(--ink)}
 button{border:0;padding:10px 14px;min-height:40px;font-weight:700;cursor:pointer;background:#edf5f1;color:var(--ink)}
-.primary{background:var(--green);color:#fff}
-.btnIn{background:var(--green);color:#fff}
-.btnOut{background:var(--blue);color:#fff}
-.danger{background:#FBECEC;color:#9C3D3D}
+.primary{background:var(--green);color:#fff} .btnIn{background:var(--green);color:#fff} .btnOut{background:var(--blue);color:#fff} .danger{background:#FBECEC;color:#9C3D3D}
 .error{color:#B00020;font-size:12px;min-height:16px;text-align:center}
 .top{height:64px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:10px 20px;gap:12px;position:sticky;top:0;z-index:5}
-.brand{display:flex;align-items:center;gap:10px;min-width:0}
-.brand img{width:92px;height:auto}
-.brand b{font-size:13px;letter-spacing:.12em;color:#4D8F70;white-space:nowrap}
+.brand{display:flex;align-items:center;gap:10px;min-width:0} .brand img{width:92px;height:auto} .brand b{font-size:13px;letter-spacing:.12em;color:#4D8F70;white-space:nowrap}
 .userbar{display:flex;align-items:center;gap:8px;font-size:12px;white-space:nowrap}
+.sync{font-size:11px;padding:4px 8px;border-radius:999px;background:#EEF9F4;color:#397A59}
+.sync.bad{background:#FFE6E6;color:#9C3D3D}
 .wrap{width:calc(100vw - 40px);max-width:1180px;margin-left:20px;margin-right:auto;padding:16px 0 28px}
-.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
-.tabs button.active{background:var(--green);color:#fff}
-.page{display:grid;gap:14px}
-.grid{display:grid;gap:14px}
-.cols2{grid-template-columns:repeat(2,minmax(0,1fr))}
-.cols3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px} .tabs button.active{background:var(--green);color:#fff}
+.page{display:grid;gap:14px} .grid{display:grid;gap:14px} .cols2{grid-template-columns:repeat(2,minmax(0,1fr))} .cols3{grid-template-columns:repeat(3,minmax(0,1fr))}
 .actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-h2{font-size:18px;margin:0 0 10px}
-h3{font-size:15px;margin:0 0 8px}
-.muted{color:var(--muted);font-size:13px}
-.time{font-size:36px;font-weight:800;letter-spacing:-1px;margin:8px 0}
-.kpi b{font-size:28px;display:block}
+h2{font-size:18px;margin:0 0 10px} h3{font-size:15px;margin:0 0 8px} .muted{color:var(--muted);font-size:13px}
+.time{font-size:36px;font-weight:800;letter-spacing:-1px;margin:8px 0} .kpi b{font-size:28px;display:block}
 .scroll{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
 table{width:100%;border-collapse:separate;border-spacing:0 7px;font-size:13px;min-width:680px}
-th{text-align:left;color:var(--muted);font-size:11px;text-transform:uppercase}
-td{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:8px}
-td:first-child{border-left:1px solid var(--line);border-radius:10px 0 0 10px}
-td:last-child{border-right:1px solid var(--line);border-radius:0 10px 10px 0}
-.pill{display:inline-block;border-radius:999px;padding:4px 8px;font-size:11px;font-weight:700}
-.ok{background:#EAF8F1;color:#397A59} .warn{background:#FFF5D8;color:#8A6B00} .bad{background:#FFE6E6;color:#9C3D3D}
-.calendar{display:grid;grid-template-columns:repeat(7,minmax(110px,1fr));gap:8px;min-width:760px}
-.day{background:#fff;border:1px solid var(--line);border-radius:14px;min-height:105px;padding:8px}
-.day h4{font-size:12px;color:#4D8F70;margin:0 0 6px;text-transform:capitalize}
-.event{font-size:11px;background:var(--green2);border-radius:9px;padding:5px;margin:4px 0}
-.event.out{background:#EEF3FF}
-.adminRecordCal{display:grid;grid-template-columns:repeat(7,minmax(110px,1fr));gap:8px;min-width:760px}
+th{text-align:left;color:var(--muted);font-size:11px;text-transform:uppercase} td{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:8px}
+td:first-child{border-left:1px solid var(--line);border-radius:10px 0 0 10px} td:last-child{border-right:1px solid var(--line);border-radius:0 10px 10px 0}
+.pill{display:inline-block;border-radius:999px;padding:4px 8px;font-size:11px;font-weight:700} .ok{background:#EAF8F1;color:#397A59} .bad{background:#FFE6E6;color:#9C3D3D}
+.calendar,.adminRecordCal{display:grid;grid-template-columns:repeat(7,minmax(110px,1fr));gap:8px;min-width:760px}
+.day{background:#fff;border:1px solid var(--line);border-radius:14px;min-height:105px;padding:8px} .day h4{font-size:12px;color:#4D8F70;margin:0 0 6px;text-transform:capitalize}
+.event{font-size:11px;background:var(--green2);border-radius:9px;padding:5px;margin:4px 0} .event.out{background:#EEF3FF}
 .toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#1e3b2e;color:#fff;padding:10px 14px;border-radius:12px;z-index:20;font-size:13px}
-.employee .adminOnly{display:none!important}
+.employee-user .adminOnly{display:none!important} .admin-user [data-tab="home"], .admin-user #home{display:none!important}
 @media(max-width:900px){
-  .top{height:54px;padding:7px 9px}
-  .brand img{width:68px} .brand b{font-size:10px} .userbar{font-size:10px;gap:5px} .userbar button{padding:6px 8px;min-height:30px;font-size:10px}
-  .wrap{width:100%;max-width:100%;margin:0;padding:8px}
-  .grid,.cols2,.cols3{grid-template-columns:1fr;gap:9px}
-  .card{padding:11px;border-radius:15px}
-  h2{font-size:16px} h3{font-size:14px}
-  .time{font-size:25px}
-  .actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}
-  .tabs{display:none}
-  input,select,textarea,button{font-size:13px;min-height:36px;padding:8px 9px}
-  .loginbox{max-width:330px;padding:14px} .logoLogin{width:145px} .control{font-size:11px}
-  table{min-width:560px;font-size:11px}
-  .calendar,.adminRecordCal{grid-template-columns:repeat(7,minmax(42px,1fr));gap:5px;min-width:0;width:100%}
-  .day{min-height:64px;padding:5px;border-radius:9px}
-  .day h4{font-size:9px;line-height:1.05;margin-bottom:3px}
-  .event{font-size:8px;line-height:1.1;padding:3px;max-height:34px;overflow:hidden}
+ .top{height:54px;padding:7px 9px} .brand img{width:68px} .brand b{font-size:10px} .userbar{font-size:10px;gap:5px} .userbar button{padding:6px 8px;min-height:30px;font-size:10px}
+ .wrap{width:100%;max-width:100%;margin:0;padding:8px} .grid,.cols2,.cols3{grid-template-columns:1fr;gap:9px} .card{padding:11px;border-radius:15px} h2{font-size:16px} h3{font-size:14px} .time{font-size:25px}
+ .actions{display:grid;grid-template-columns:1fr 1fr;gap:7px} .tabs{display:flex!important;flex-wrap:nowrap;overflow-x:auto;gap:6px;padding-bottom:7px} .tabs button{flex:0 0 auto;font-size:11px;padding:7px 9px;min-height:32px;white-space:nowrap}
+ input,select,textarea,button{font-size:13px;min-height:36px;padding:8px 9px} .loginbox{max-width:330px;padding:14px} .logoLogin{width:145px} .control{font-size:11px}
+ table{min-width:560px;font-size:11px} .calendar,.adminRecordCal{grid-template-columns:repeat(7,minmax(42px,1fr));gap:5px;min-width:0;width:100%}
+ .day{min-height:64px;padding:5px;border-radius:9px} .day h4{font-size:9px;line-height:1.05;margin-bottom:3px} .event{font-size:8px;line-height:1.1;padding:3px;max-height:34px;overflow:hidden}
 }
 @media(max-width:390px){.actions{grid-template-columns:1fr}.loginbox{max-width:310px}}
-
-/* ===== CORRECCIÓN REAL ADMINISTRADOR EN MÓVIL ===== */
-@media(max-width:900px){
-  body.admin-user .tabs{
-    display:flex!important;
-    flex-wrap:nowrap!important;
-    overflow-x:auto!important;
-    gap:6px!important;
-    padding-bottom:8px!important;
-  }
-  body.admin-user .tabs button{
-    display:inline-flex!important;
-    flex:0 0 auto!important;
-    font-size:11px!important;
-    min-height:32px!important;
-    padding:7px 9px!important;
-    white-space:nowrap!important;
-  }
-  body.admin-user .adminOnly{
-    display:block!important;
-  }
-  body.admin-user .tabs .adminOnly{
-    display:inline-flex!important;
-  }
-  body.employee-user .adminOnly{
-    display:none!important;
-  }
-}
-
-
-@media(max-width:900px){
-  body.admin-user #adminMobileSelectBox{
-    display:block!important;
-  }
-  body.admin-user #adminMobileSelect{
-    width:100%!important;
-    border:1px solid var(--line)!important;
-    background:#fff!important;
-    border-radius:12px!important;
-    padding:9px!important;
-    font-size:13px!important;
-  }
-}
-
-
-/* ADMINISTRADOR SIN PANEL EMPLEADO */
-body.admin-user [data-tab="home"]{
-  display:none!important;
-}
-body.admin-user #home{
-  display:none!important;
-}
-
 </style>
 </head>
 <body>
 <div id="toast" class="toast hidden"></div>
-
 <section id="login" class="login">
   <div class="card loginbox">
-    <img class="logoLogin" src="/logo-ynea.png" alt="Ynea">
+    <img class="logoLogin" src="/logo-ynea.png" alt="Ynea" onerror="this.style.display='none'">
     <div class="control">CONTROL HORARIO</div>
     <div class="form">
-      <label>Empleado
-        <select id="employeeSelect" autocomplete="username"></select>
-      </label>
-      <label>Clave de acceso
-        <input id="pass" type="password" autocomplete="current-password">
-      </label>
+      <label>Empleado<select id="employeeSelect" autocomplete="username"></select></label>
+      <label>Clave de acceso<input id="pass" type="password" autocomplete="current-password"></label>
       <button id="loginBtn" class="primary" type="button">Entrar</button>
       <div id="loginError" class="error"></div>
     </div>
   </div>
 </section>
-
 <section id="app" class="hidden">
   <header class="top">
-    <div class="brand"><img src="/logo-ynea.png" alt="Ynea"><b>CONTROL HORARIO</b></div>
-    <div class="userbar"><span id="who"></span><button id="logoutBtn" type="button">Salir</button></div>
+    <div class="brand"><img src="/logo-ynea.png" alt="Ynea" onerror="this.style.display='none'"><b>CONTROL HORARIO</b></div>
+    <div class="userbar"><span id="syncStatus" class="sync">Conectando...</span><span id="who"></span><button id="logoutBtn" type="button">Salir</button></div>
   </header>
   <main class="wrap">
     <nav class="tabs">
@@ -174,156 +86,40 @@ body.admin-user #home{
       <button data-tab="legal" class="adminOnly" type="button">Registro legal</button>
       <button data-tab="export" class="adminOnly" type="button">Exportaciones</button>
     </nav>
-
-    <div id="adminMobileSelectBox" class="adminOnly" style="display:none;margin-bottom:10px">
-      <select id="adminMobileSelect">
-        
-        <option value="admin">Administrador</option>
-        <option value="calendar">Calendario</option>
-        <option value="legal">Registro legal</option>
-        <option value="export">Exportaciones</option>
-      </select>
-    </div>
-
     <section id="home" class="page grid cols2">
-      <div class="card">
-        <h2>Panel empleado</h2>
-        <p class="muted" id="todayText"></p>
-        <div class="time" id="clock">--:--</div>
-        <div class="actions">
-          <button id="btnIn" class="btnIn" type="button">Entrada</button>
-          <button id="btnOut" class="btnOut" type="button">Salida</button>
-          <button id="btnBreakIn" type="button">Inicio pausa</button>
-          <button id="btnBreakOut" type="button">Fin pausa</button>
-        </div>
-      </div>
-      <div class="card">
-        <h2>Mis registros</h2>
-        <div class="actions">
-          <button id="myWeekBtn" class="primary" type="button">Semana</button>
-          <button id="myMonthBtn" type="button">Mes</button>
-        </div>
-        <div class="scroll"><div id="myCalendar" class="calendar"></div></div>
-      </div>
+      <div class="card"><h2>Panel empleado</h2><p class="muted" id="todayText"></p><div class="time" id="clock">--:--</div><div class="actions"><button id="btnIn" class="btnIn" type="button">Entrada</button><button id="btnOut" class="btnOut" type="button">Salida</button><button id="btnBreakIn" type="button">Inicio pausa</button><button id="btnBreakOut" type="button">Fin pausa</button></div></div>
+      <div class="card"><h2>Mis registros</h2><div class="actions"><button id="myWeekBtn" class="primary" type="button">Semana</button><button id="myMonthBtn" type="button">Mes</button></div><div class="scroll"><div id="myCalendar" class="calendar"></div></div></div>
     </section>
-
     <section id="admin" class="page hidden adminOnly">
-      <div class="grid cols3">
-        <div class="card kpi"><span>Empleados</span><b id="kEmp">0</b></div>
-        <div class="card kpi"><span>Fichajes</span><b id="kPunch">0</b></div>
-        <div class="card kpi"><span>Trabajando ahora</span><b id="kOpen">0</b></div>
-      </div>
-
-      <div class="card">
-        <h2>Registros por empleado</h2>
-        <div class="grid cols3">
-          <select id="adminEmpFilter"><option value="all">Todos los empleados</option></select>
-          <select id="adminPeriod"><option value="week">Semana actual</option><option value="month">Mes actual</option></select>
-        </div>
-        <div class="scroll"><div id="adminRecords" class="adminRecordCal"></div></div>
-      </div>
-
-      <div class="card">
-        <h2>Empleados, claves, roles y bloqueos</h2>
-        <div class="grid cols3">
-          <input id="empName" placeholder="Nombre">
-          <input id="empEmail" placeholder="Email">
-          <input id="empPass" placeholder="Clave inicial" value="1234">
-          <select id="empRole"><option value="employee">Empleado</option><option value="admin">Administrador</option></select>
-          <button id="addEmpBtn" class="primary" type="button">Añadir empleado</button>
-        </div>
-        <div class="scroll"><table id="empTable"></table></div>
-      </div>
-
-      <div class="card">
-        <h2>Configuración de horarios</h2>
-        <p class="muted">Diario, semanal o mensual. Permite varias franjas diarias.</p>
-        <div class="grid cols3">
-          <select id="scheduleView"><option value="employee">Ver empleado elegido</option><option value="all">Resumen de todos</option></select>
-          <select id="scheduleEmp"></select>
-          <select id="scheduleMode"><option value="daily">Diario</option><option value="weekly" selected>Semanal</option><option value="monthly">Mensual</option></select>
-          <select id="scheduleDay"><option value="1">Lunes</option><option value="2">Martes</option><option value="3">Miércoles</option><option value="4">Jueves</option><option value="5">Viernes</option><option value="6">Sábado</option><option value="0">Domingo</option></select>
-          <input id="scheduleDate" type="date" class="hidden">
-          <input id="scheduleMonth" type="month" class="hidden">
-          <input id="schIn" type="time" value="09:00">
-          <input id="schOut" type="time" value="14:00">
-          <button id="addScheduleBtn" class="primary" type="button">Añadir franja</button>
-        </div>
-        <div class="scroll"><table id="scheduleTable"></table></div>
-      </div>
-
-      <div class="card">
-        <h2>Vacaciones, días libres y festivos</h2>
-        <div class="grid cols3">
-          <select id="absenceEmp"></select>
-          <select id="absenceType"><option>Vacaciones</option><option>Día libre</option><option>Festivo</option><option>Otros</option></select>
-          <input id="absenceStart" type="date">
-          <input id="absenceEnd" type="date">
-          <input id="absenceNote" placeholder="Observaciones">
-          <button id="addAbsenceBtn" class="primary" type="button">Añadir período</button>
-        </div>
-        <div class="scroll"><table id="absenceTable"></table></div>
-      </div>
-
-      <div class="card">
-        <h2>Horas extra autorizadas</h2>
-        <div class="grid cols3">
-          <select id="extraEmp"></select>
-          <input id="extraDate" type="date">
-          <input id="extraMin" type="number" placeholder="Minutos autorizados">
-          <input id="extraReason" placeholder="Motivo">
-          <button id="addExtraBtn" class="primary" type="button">Autorizar</button>
-        </div>
-        <div class="scroll"><table id="extraTable"></table></div>
-      </div>
+      <div class="grid cols3"><div class="card kpi"><span>Empleados</span><b id="kEmp">0</b></div><div class="card kpi"><span>Fichajes</span><b id="kPunch">0</b></div><div class="card kpi"><span>Trabajando ahora</span><b id="kOpen">0</b></div></div>
+      <div class="card"><h2>Registros por empleado</h2><div class="grid cols3"><select id="adminEmpFilter"><option value="all">Todos los empleados</option></select><select id="adminPeriod"><option value="week">Semana actual</option><option value="month">Mes actual</option></select></div><div class="scroll"><div id="adminRecords" class="adminRecordCal"></div></div></div>
+      <div class="card"><h2>Empleados, claves, roles y bloqueos</h2><div class="grid cols3"><input id="empName" placeholder="Nombre"><input id="empEmail" placeholder="Email"><input id="empPass" placeholder="Clave inicial" value="1234"><select id="empRole"><option value="employee">Empleado</option><option value="admin">Administrador</option></select><button id="addEmpBtn" class="primary" type="button">Añadir empleado</button></div><div class="scroll"><table id="empTable"></table></div></div>
+      <div class="card"><h2>Configuración de horarios</h2><p class="muted">Diario, semanal o mensual. Permite varias franjas diarias.</p><div class="grid cols3"><select id="scheduleView"><option value="employee">Ver empleado elegido</option><option value="all">Resumen de todos</option></select><select id="scheduleEmp"></select><select id="scheduleMode"><option value="daily">Diario</option><option value="weekly" selected>Semanal</option><option value="monthly">Mensual</option></select><select id="scheduleDay"><option value="1">Lunes</option><option value="2">Martes</option><option value="3">Miércoles</option><option value="4">Jueves</option><option value="5">Viernes</option><option value="6">Sábado</option><option value="0">Domingo</option></select><input id="scheduleDate" type="date" class="hidden"><input id="scheduleMonth" type="month" class="hidden"><input id="schIn" type="time" value="09:00"><input id="schOut" type="time" value="14:00"><button id="addScheduleBtn" class="primary" type="button">Añadir franja</button></div><div class="scroll"><table id="scheduleTable"></table></div></div>
+      <div class="card"><h2>Vacaciones, días libres y festivos</h2><div class="grid cols3"><select id="absenceEmp"></select><select id="absenceType"><option>Vacaciones</option><option>Día libre</option><option>Festivo</option><option>Otros</option></select><input id="absenceStart" type="date"><input id="absenceEnd" type="date"><input id="absenceNote" placeholder="Observaciones"><button id="addAbsenceBtn" class="primary" type="button">Añadir período</button></div><div class="scroll"><table id="absenceTable"></table></div></div>
+      <div class="card"><h2>Horas extra autorizadas</h2><div class="grid cols3"><select id="extraEmp"></select><input id="extraDate" type="date"><input id="extraMin" type="number" placeholder="Minutos autorizados"><input id="extraReason" placeholder="Motivo"><button id="addExtraBtn" class="primary" type="button">Autorizar</button></div><div class="scroll"><table id="extraTable"></table></div></div>
     </section>
-
-    <section id="calendar" class="page hidden adminOnly">
-      <div class="card">
-        <h2>Calendario tipo Google Calendar</h2>
-        <div class="actions"><button id="prevWeek" type="button">Anterior</button><button id="todayWeek" type="button">Hoy</button><button id="nextWeek" type="button">Siguiente</button><b id="weekLabel"></b></div>
-        <div class="scroll"><div id="mainCalendar" class="calendar"></div></div>
-      </div>
-    </section>
-
+    <section id="calendar" class="page hidden adminOnly"><div class="card"><h2>Calendario tipo Google Calendar</h2><div class="actions"><button id="prevWeek" type="button">Anterior</button><button id="todayWeek" type="button">Hoy</button><button id="nextWeek" type="button">Siguiente</button><b id="weekLabel"></b></div><div class="scroll"><div id="mainCalendar" class="calendar"></div></div></div></section>
     <section id="legal" class="page hidden adminOnly"><div class="card"><h2>Registro legal</h2><div class="scroll"><table id="legalTable"></table></div></div></section>
     <section id="export" class="page hidden adminOnly"><div class="card"><h2>Exportaciones</h2><button id="exportBtn" class="primary" type="button">Exportar CSV / Excel</button><div class="scroll"><table id="exportTable"></table></div></div></section>
   </main>
 </section>
-
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (function(){
 'use strict';
 const SUPABASE_URL='https://trnhjvhrhcxegsokbope.supabase.co';
 const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRybmhqdmhyaGN4ZWdzb2tib3BlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyMTMxMTMsImV4cCI6MjA5Mzc4OTExM30.PsceFoZ_MIW0IgzNC6C8NwuLK-KFoAJm6mDI-90rQxY';
-const CLOUD_TABLE='ynea_app_state', CLOUD_ID='main';
-const LS='ynea_control_horario_clean_v1';
-const KEY_LS='ynea_saved_employee_keys';
-const SEL_LS='ynea_saved_employee_selected';
-let supa=null, state=null, user=null, currentMy='week', weekStart=startOfWeek(new Date()), remote=false;
+const CLOUD_TABLE='ynea_app_state';
+const CLOUD_ID='main';
+const LS='ynea_control_horario_cloud_state_v10';
+const KEY_LS='ynea_saved_employee_keys_v10';
+const SEL_LS='ynea_saved_employee_selected_v10';
+let supa=null, channel=null, state=null, user=null, currentMy='week', weekStart=startOfWeek(new Date()), saving=false, remoteApplying=false, syncTimer=null;
 
 const $=id=>document.getElementById(id);
-function seed(){return {
- employees:[
-  {id:'admin',name:'Administrador',email:'admin@ynea.es',pass:'1234',role:'admin',blocked:false,blockReason:''},
-  {id:'susana',name:'Susana',email:'susana@ynea.es',pass:'1234',role:'employee',blocked:false,blockReason:''}
- ],
- punches:[],
- schedules:[
-  {id:'s1',employeeId:'susana',mode:'weekly',day:'1',in:'09:00',out:'14:00'},
-  {id:'s2',employeeId:'susana',mode:'weekly',day:'1',in:'16:00',out:'20:00'},
-  {id:'s3',employeeId:'susana',mode:'weekly',day:'2',in:'09:00',out:'14:00'},
-  {id:'s4',employeeId:'susana',mode:'weekly',day:'3',in:'09:00',out:'14:00'},
-  {id:'s5',employeeId:'susana',mode:'weekly',day:'4',in:'09:00',out:'14:00'},
-  {id:'s6',employeeId:'susana',mode:'weekly',day:'5',in:'09:00',out:'14:00'}
- ],
- absences:[], extraAuth:[], sent:{}
-}}
-function ensure(){state=state||seed();['employees','punches','schedules','absences','extraAuth'].forEach(k=>state[k]=state[k]||[]);state.sent=state.sent||{};
- if(!state.employees.find(e=>e.email==='admin@ynea.es'))state.employees.unshift({id:'admin',name:'Administrador',email:'admin@ynea.es',pass:'1234',role:'admin',blocked:false,blockReason:''});
- if(!state.employees.find(e=>e.email==='susana@ynea.es'))state.employees.push({id:'susana',name:'Susana',email:'susana@ynea.es',pass:'1234',role:'employee',blocked:false,blockReason:''});
-}
+function seed(){return {employees:[{id:'admin',name:'Administrador',email:'admin@ynea.es',pass:'1234',role:'admin',blocked:false,blockReason:''},{id:'susana',name:'Susana',email:'susana@ynea.es',pass:'1234',role:'employee',blocked:false,blockReason:''}],punches:[],schedules:[{id:'s1',employeeId:'susana',mode:'weekly',day:'1',in:'09:00',out:'14:00'},{id:'s2',employeeId:'susana',mode:'weekly',day:'1',in:'16:00',out:'20:00'},{id:'s3',employeeId:'susana',mode:'weekly',day:'2',in:'09:00',out:'14:00'},{id:'s4',employeeId:'susana',mode:'weekly',day:'3',in:'09:00',out:'14:00'},{id:'s5',employeeId:'susana',mode:'weekly',day:'4',in:'09:00',out:'14:00'},{id:'s6',employeeId:'susana',mode:'weekly',day:'5',in:'09:00',out:'14:00'}],absences:[],extraAuth:[],version:1,updatedAt:new Date().toISOString()}}
+function ensure(){state=state||seed();['employees','punches','schedules','absences','extraAuth'].forEach(k=>state[k]=Array.isArray(state[k])?state[k]:[]); if(!state.employees.find(e=>e.email==='admin@ynea.es')) state.employees.unshift({id:'admin',name:'Administrador',email:'admin@ynea.es',pass:'1234',role:'admin',blocked:false,blockReason:''}); if(!state.employees.find(e=>e.email==='susana@ynea.es')) state.employees.push({id:'susana',name:'Susana',email:'susana@ynea.es',pass:'1234',role:'employee',blocked:false,blockReason:''});}
+function setSync(txt,bad=false){let s=$('syncStatus'); if(s){s.textContent=txt;s.classList.toggle('bad',bad)}}
 function esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 function emp(id){return state.employees.find(e=>e.id===id)}
 function dkey(d){let x=new Date(d);return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0')}
@@ -334,40 +130,23 @@ function label(t){return {entrada:'Entrada',salida:'Salida',pausa_inicio:'Inicio
 function toast(t){$('toast').textContent=t;$('toast').classList.remove('hidden');setTimeout(()=>$('toast').classList.add('hidden'),2200)}
 function startOfWeek(d){let x=new Date(d),day=(x.getDay()+6)%7;x.setDate(x.getDate()-day);x.setHours(0,0,0,0);return x}
 function daysFor(period){let now=new Date(),days=[]; if(period==='month'){let first=new Date(now.getFullYear(),now.getMonth(),1),last=new Date(now.getFullYear(),now.getMonth()+1,0);for(let d=new Date(first);d<=last;d.setDate(d.getDate()+1))days.push(new Date(d));} else {let ws=startOfWeek(now);for(let i=0;i<7;i++){let d=new Date(ws);d.setDate(d.getDate()+i);days.push(d)}} return days}
-async function load(){try{state=JSON.parse(localStorage.getItem(LS))||seed()}catch(e){state=seed()} ensure(); localStorage.setItem(LS,JSON.stringify(state));
- try{if(window.supabase){supa=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);let res=await supa.from(CLOUD_TABLE).select('data').eq('id',CLOUD_ID).maybeSingle(); if(res && res.data && res.data.data){state=res.data.data;ensure();localStorage.setItem(LS,JSON.stringify(state));} else {await supa.from(CLOUD_TABLE).upsert({id:CLOUD_ID,data:state,updated_at:new Date().toISOString()})} subscribe();}}catch(e){console.warn(e)}}
-function subscribe(){if(!supa)return; try{supa.channel('ynea_clean_realtime').on('postgres_changes',{event:'*',schema:'public',table:CLOUD_TABLE,filter:'id=eq.'+CLOUD_ID},payload=>{if(payload?.new?.data){remote=true;state=payload.new.data;ensure();localStorage.setItem(LS,JSON.stringify(state));renderAll();remote=false;}}).subscribe();}catch(e){console.warn(e)}}
-function save(){ensure();localStorage.setItem(LS,JSON.stringify(state)); if(supa&&!remote) supa.from(CLOUD_TABLE).upsert({id:CLOUD_ID,data:state,updated_at:new Date().toISOString()}); renderAll();}
+async function loadCloud(){setSync('Conectando...'); try{supa=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY); let res=await supa.from(CLOUD_TABLE).select('data,updated_at').eq('id',CLOUD_ID).maybeSingle(); if(res.error) throw res.error; if(res.data&&res.data.data){state=res.data.data; ensure(); localStorage.setItem(LS,JSON.stringify(state)); setSync('Nube sincronizada');} else {state=state||seed(); ensure(); state.updatedAt=new Date().toISOString(); let up=await supa.from(CLOUD_TABLE).upsert({id:CLOUD_ID,data:state,updated_at:new Date().toISOString()}); if(up.error) throw up.error; setSync('Nube creada');} subscribeCloud(); }catch(e){console.error('Supabase',e); setSync('Sin nube',true);}}
+function subscribeCloud(){if(!supa) return; try{ if(channel) supa.removeChannel(channel); channel=supa.channel('ynea_app_state_live_v10').on('postgres_changes',{event:'*',schema:'public',table:CLOUD_TABLE,filter:'id=eq.'+CLOUD_ID},payload=>{ if(payload&&payload.new&&payload.new.data){remoteApplying=true; state=payload.new.data; ensure(); localStorage.setItem(LS,JSON.stringify(state)); populateLogin(); renderAll(); setSync('Actualizado'); setTimeout(()=>setSync('Nube sincronizada'),900); remoteApplying=false; } }).subscribe(status=>{ if(status==='SUBSCRIBED')setSync('Tiempo real activo'); }); }catch(e){console.error(e);setSync('Tiempo real no activo',true)}}
+async function init(){try{state=JSON.parse(localStorage.getItem(LS))||seed()}catch(e){state=seed()} ensure(); localStorage.setItem(LS,JSON.stringify(state)); await loadCloud();}
+function save(){ensure(); state.version=(Number(state.version)||0)+1; state.updatedAt=new Date().toISOString(); localStorage.setItem(LS,JSON.stringify(state)); renderAll(); if(supa&&!remoteApplying){ clearTimeout(syncTimer); syncTimer=setTimeout(async()=>{try{saving=true; setSync('Guardando...'); let res=await supa.from(CLOUD_TABLE).upsert({id:CLOUD_ID,data:state,updated_at:new Date().toISOString()}); if(res.error) throw res.error; setSync('Guardado en nube'); setTimeout(()=>setSync('Nube sincronizada'),900);}catch(e){console.error('save cloud',e); setSync('Error nube',true);} finally{saving=false;}},200); } else if(!supa) setSync('Solo este equipo',true);}
 function populateLogin(){let sel=$('employeeSelect'); if(!sel)return; let cur=sel.value||localStorage.getItem(SEL_LS)||''; sel.innerHTML=state.employees.filter(e=>!e.blocked).map(e=>`<option value="${e.id}">${esc(e.name)}</option>`).join(''); if(cur&&emp(cur)&&!emp(cur).blocked)sel.value=cur; fillPass();}
 function fillPass(){let sel=$('employeeSelect'), p=$('pass'); if(!sel||!p)return; localStorage.setItem(SEL_LS,sel.value); try{let keys=JSON.parse(localStorage.getItem(KEY_LS)||'{}'); if(keys[sel.value])p.value=keys[sel.value];}catch(e){}}
 function savePass(id,pass){try{let keys=JSON.parse(localStorage.getItem(KEY_LS)||'{}'); keys[id]=pass; localStorage.setItem(KEY_LS,JSON.stringify(keys)); localStorage.setItem(SEL_LS,id)}catch(e){}}
-function login(){let id=$('employeeSelect').value, pass=$('pass').value||'', e=emp(id); if(!e){$('loginError').textContent='Selecciona un empleado';return} if(e.blocked){$('loginError').textContent='Empleado bloqueado: '+(e.blockReason||'');return} if(String(e.pass)!==String(pass)){$('loginError').textContent='Clave incorrecta';return} user=e; savePass(id,pass); $('loginError').textContent=''; $('login').classList.add('hidden'); $('app').classList.remove('hidden'); 
-document.body.classList.toggle('employee', e.role !== 'admin');
-document.body.classList.toggle('employee-user', e.role !== 'admin');
-document.body.classList.toggle('admin-user', e.role === 'admin');
- $('who').textContent=e.name; 
-if(e.role==='admin'){
-  tab('admin');
-}else{
-  tab('home');
-}
- requestNotifications(); renderAll();}
-function logout(){user=null;document.body.classList.remove('admin-user','employee-user','employee');$('app').classList.add('hidden');$('login').classList.remove('hidden');populateLogin();}
-function tab(id){document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));$(id).classList.remove('hidden');document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('active',b.dataset.tab===id));renderAll();}
-function requestNotifications(){if('Notification'in window && Notification.permission==='default')Notification.requestPermission().catch(()=>{})}
-function notify(msg){toast(msg); if('Notification'in window && Notification.permission==='granted')new Notification('Control Horario',{body:msg,icon:'/icon-192.png'})}
+function login(){let id=$('employeeSelect').value, pass=$('pass').value||'', e=emp(id); if(!e){$('loginError').textContent='Selecciona un empleado';return} if(e.blocked){$('loginError').textContent='Empleado bloqueado: '+(e.blockReason||'');return} if(String(e.pass)!==String(pass)){$('loginError').textContent='Clave incorrecta';return} user=e; savePass(id,pass); $('loginError').textContent=''; $('login').classList.add('hidden'); $('app').classList.remove('hidden'); document.body.classList.toggle('employee-user',e.role!=='admin'); document.body.classList.toggle('admin-user',e.role==='admin'); $('who').textContent=e.name; if(e.role==='admin')tab('admin'); else tab('home'); renderAll();}
+function logout(){user=null;document.body.classList.remove('admin-user','employee-user');$('app').classList.add('hidden');$('login').classList.remove('hidden');populateLogin();}
+function tab(id){document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));let page=$(id); if(page)page.classList.remove('hidden');document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('active',b.dataset.tab===id));renderAll();}
+function notify(msg){toast(msg); if('Notification'in window&&Notification.permission==='granted')new Notification('Control Horario',{body:msg,icon:'/icon-192.png'})}
 function punch(type){if(!user)return; let p={id:'p'+Date.now()+Math.floor(Math.random()*999),employeeId:user.id,type,time:new Date().toISOString(),device:/Mobi|Android|iPhone/i.test(navigator.userAgent)?'Móvil':'PC'}; p.hash=btoa(unescape(encodeURIComponent(p.employeeId+p.type+p.time))).slice(0,18); state.punches.push(p); save(); notify(label(type)+' registrada a las '+fmtTime(p.time));}
-function renderClock(){let now=new Date();$('clock').textContent=now.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});$('todayText').textContent=now.toLocaleDateString('es-ES',{weekday:'long',day:'2-digit',month:'long',year:'numeric'})}
-function renderHome(){if(!user)return; renderMyCalendar();}
-function renderMyCalendar(){let cont=$('myCalendar'); if(!cont||!user)return; let days=daysFor(currentMy); cont.innerHTML=days.map(day=>dayHtml(day,state.punches.filter(p=>p.employeeId===user.id&&dkey(p.time)===dkey(day)))).join('');}
-function dayHtml(day,events){let html=`<div class="day"><h4>${day.toLocaleDateString('es-ES',{weekday:'short',day:'2-digit'})}</h4>`; if(!events.length)html+='<div class="event">Sin registros</div>'; events.sort((a,b)=>new Date(a.time)-new Date(b.time)).forEach(p=>html+=`<div class="event ${p.type==='salida'?'out':''}"><b>${fmtTime(p.time)}</b><br>${label(p.type)}</div>`); return html+'</div>';}
-function renderAdmin(){if(!user||user.role!=='admin')return; $('kEmp').textContent=state.employees.length; $('kPunch').textContent=state.punches.length; $('kOpen').textContent=state.employees.filter(e=>{let last=[...state.punches].reverse().find(p=>p.employeeId===e.id);return last&&last.type==='entrada'}).length;
- let opts=state.employees.map(e=>`<option value="${e.id}">${esc(e.name)}</option>`).join('');
- ['scheduleEmp','extraEmp'].forEach(id=>$(id).innerHTML=opts); $('absenceEmp').innerHTML='<option value="all">Toda la plantilla / festivo general</option>'+opts;
- let filter=$('adminEmpFilter'), prev=filter.value||'all'; filter.innerHTML='<option value="all">Todos los empleados</option>'+opts; filter.value=(prev==='all'||emp(prev))?prev:'all';
- renderEmpTable(); renderSchedules(); renderAbsences(); renderExtras(); renderAdminRecords();
-}
-function renderAdminRecords(){let id=$('adminEmpFilter').value, period=$('adminPeriod').value, days=daysFor(period), cont=$('adminRecords'); cont.innerHTML=days.map(day=>{let ev=state.punches.filter(p=>(id==='all'||p.employeeId===id)&&dkey(p.time)===dkey(day)); let html=`<div class="day"><h4>${day.toLocaleDateString('es-ES',{weekday:'short',day:'2-digit'})}</h4>`; if(!ev.length)html+='<div class="event">Sin registros</div>'; ev.sort((a,b)=>new Date(a.time)-new Date(b.time)).forEach(p=>{let e=emp(p.employeeId)||{name:'Empleado'}; html+=`<div class="event ${p.type==='salida'?'out':''}"><b>${fmtTime(p.time)}</b><br>${esc(e.name)}<br>${label(p.type)}</div>`}); return html+'</div>';}).join('');}
+function renderClock(){let now=new Date(); if($('clock'))$('clock').textContent=now.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'}); if($('todayText'))$('todayText').textContent=now.toLocaleDateString('es-ES',{weekday:'long',day:'2-digit',month:'long',year:'numeric'})}
+function dayHtml(day,events,admin=false){let html=`<div class="day"><h4>${day.toLocaleDateString('es-ES',{weekday:'short',day:'2-digit'})}</h4>`; if(!events.length)html+='<div class="event">Sin registros</div>'; events.sort((a,b)=>new Date(a.time)-new Date(b.time)).forEach(p=>{let e=emp(p.employeeId)||{name:'Empleado'}; html+=`<div class="event ${p.type==='salida'?'out':''}"><b>${fmtTime(p.time)}</b><br>${admin?esc(e.name)+'<br>':''}${label(p.type)}</div>`}); return html+'</div>';}
+function renderMyCalendar(){let cont=$('myCalendar'); if(!cont||!user)return; cont.innerHTML=daysFor(currentMy).map(day=>dayHtml(day,state.punches.filter(p=>p.employeeId===user.id&&dkey(p.time)===dkey(day)))).join('');}
+function renderAdmin(){if(!user||user.role!=='admin')return; $('kEmp').textContent=state.employees.length; $('kPunch').textContent=state.punches.length; $('kOpen').textContent=state.employees.filter(e=>{let last=[...state.punches].reverse().find(p=>p.employeeId===e.id);return last&&last.type==='entrada'}).length; let opts=state.employees.map(e=>`<option value="${e.id}">${esc(e.name)}</option>`).join(''); ['scheduleEmp','extraEmp'].forEach(id=>{if($(id))$(id).innerHTML=opts}); $('absenceEmp').innerHTML='<option value="all">Toda la plantilla / festivo general</option>'+opts; let filter=$('adminEmpFilter'), prev=filter.value||'all'; filter.innerHTML='<option value="all">Todos los empleados</option>'+opts; filter.value=(prev==='all'||emp(prev))?prev:'all'; renderEmpTable(); renderSchedules(); renderAbsences(); renderExtras(); renderAdminRecords();}
+function renderAdminRecords(){let id=$('adminEmpFilter').value, period=$('adminPeriod').value, days=daysFor(period), cont=$('adminRecords'); cont.innerHTML=days.map(day=>dayHtml(day,state.punches.filter(p=>(id==='all'||p.employeeId===id)&&dkey(p.time)===dkey(day)),true)).join('');}
 function renderEmpTable(){let rows='<tr><th>Nombre</th><th>Email</th><th>Rol</th><th>Estado</th><th>Clave</th><th>Bloqueo</th></tr>'; state.employees.forEach(e=>rows+=`<tr><td>${esc(e.name)}</td><td>${esc(e.email)}</td><td><select data-role="${e.id}"><option value="employee" ${e.role==='employee'?'selected':''}>Empleado</option><option value="admin" ${e.role==='admin'?'selected':''}>Administrador</option></select><button data-change-role="${e.id}">Cambiar</button></td><td>${e.blocked?'<span class="pill bad">Bloqueado: '+esc(e.blockReason||'')+'</span>':'<span class="pill ok">Activo</span>'}</td><td><input data-pass="${e.id}" value="${esc(e.pass)}"><button data-change-pass="${e.id}">Guardar</button></td><td>${e.id===user.id?'—':`<select data-reason="${e.id}"><option>Baja laboral</option><option>Fin contrato</option><option>Otros</option></select><button class="danger" data-block="${e.id}">Bloquear</button><button data-unblock="${e.id}">Activar</button>`}</td></tr>`); $('empTable').innerHTML=rows;}
 function addEmployee(){if(!$('empName').value||!$('empEmail').value){alert('Rellena nombre y email');return} state.employees.push({id:'e'+Date.now(),name:$('empName').value,email:$('empEmail').value,pass:$('empPass').value||'1234',role:$('empRole').value,blocked:false,blockReason:''}); $('empName').value='';$('empEmail').value='';$('empPass').value='1234'; save(); populateLogin();}
 function modeSchedule(){let m=$('scheduleMode').value; $('scheduleDay').classList.toggle('hidden',m!=='weekly'); $('scheduleDate').classList.toggle('hidden',m!=='daily'); $('scheduleMonth').classList.toggle('hidden',m!=='monthly');}
@@ -377,73 +156,15 @@ function addAbsence(){let st=$('absenceStart').value,en=$('absenceEnd').value||s
 function renderAbsences(){let rows='<tr><th>Empleado</th><th>Tipo</th><th>Desde</th><th>Hasta</th><th>Observaciones</th><th></th></tr>'; state.absences.forEach(a=>{let e=a.employeeId==='all'?{name:'Toda la plantilla'}:(emp(a.employeeId)||{}); rows+=`<tr><td>${esc(e.name)}</td><td>${esc(a.type)}</td><td>${a.start}</td><td>${a.end}</td><td>${esc(a.note)}</td><td><button class="danger" data-del-abs="${a.id}">Eliminar</button></td></tr>`}); $('absenceTable').innerHTML=rows;}
 function addExtra(){state.extraAuth.push({id:'x'+Date.now(),employeeId:$('extraEmp').value,date:$('extraDate').value||dkey(new Date()),minutes:Number($('extraMin').value)||0,reason:$('extraReason').value||'Autorizado'}); $('extraReason').value=''; save();}
 function renderExtras(){let rows='<tr><th>Empleado</th><th>Fecha</th><th>Minutos</th><th>Motivo</th><th></th></tr>'; state.extraAuth.forEach(x=>{let e=emp(x.employeeId)||{}; rows+=`<tr><td>${esc(e.name)}</td><td>${x.date}</td><td>${x.minutes}</td><td>${esc(x.reason)}</td><td><button class="danger" data-del-extra="${x.id}">Eliminar</button></td></tr>`}); $('extraTable').innerHTML=rows;}
-function renderMainCalendar(){let days=[]; for(let i=0;i<7;i++){let d=new Date(weekStart);d.setDate(d.getDate()+i);days.push(d)} $('weekLabel').textContent='Semana del '+fmtDate(days[0])+' al '+fmtDate(days[6]); $('mainCalendar').innerHTML=days.map(day=>{let ev=state.punches.filter(p=>dkey(p.time)===dkey(day)); let html=`<div class="day"><h4>${day.toLocaleDateString('es-ES',{weekday:'short',day:'2-digit'})}</h4>`; if(!ev.length)html+='<div class="event">Sin registros</div>'; ev.forEach(p=>{let e=emp(p.employeeId)||{name:''}; html+=`<div class="event ${p.type==='salida'?'out':''}">${fmtTime(p.time)}<br>${esc(e.name)}<br>${label(p.type)}</div>`}); return html+'</div>';}).join('');}
+function renderMainCalendar(){let days=[]; for(let i=0;i<7;i++){let d=new Date(weekStart);d.setDate(d.getDate()+i);days.push(d)} $('weekLabel').textContent='Semana del '+fmtDate(days[0])+' al '+fmtDate(days[6]); $('mainCalendar').innerHTML=days.map(day=>dayHtml(day,state.punches.filter(p=>dkey(p.time)===dkey(day)),true)).join('');}
 function renderLegal(){let head='<tr><th>Fecha</th><th>Hora</th><th>Empleado</th><th>Evento</th><th>Dispositivo</th><th>Huella</th></tr>', rows=''; [...state.punches].reverse().forEach(p=>{let e=emp(p.employeeId)||{}; rows+=`<tr><td>${fmtDate(p.time)}</td><td>${fmtTime(p.time)}</td><td>${esc(e.name||'')}</td><td>${label(p.type)}</td><td>${p.device}</td><td>${p.hash||''}</td></tr>`}); $('legalTable').innerHTML=head+rows; $('exportTable').innerHTML=head+rows;}
 function exportCSV(){let rows=[['Fecha','Hora','Empleado','Email','Evento','Dispositivo','Huella']]; state.punches.forEach(p=>{let e=emp(p.employeeId)||{}; rows.push([fmtDate(p.time),fmtTime(p.time),e.name||'',e.email||'',label(p.type),p.device,p.hash||''])}); let csv=rows.map(r=>r.map(x=>'"'+String(x).replace(/"/g,'""')+'"').join(';')).join('\n'); let a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'})); a.download='Control_Horario.csv'; a.click();}
-function renderAll(){if(!state)return; renderClock(); if(user){renderHome();renderAdmin();renderMainCalendar();renderLegal();}}
-function bind(){$('loginBtn').addEventListener('click',login); $('pass').addEventListener('keydown',e=>{if(e.key==='Enter')login()}); $('employeeSelect').addEventListener('change',fillPass); $('pass').addEventListener('input',()=>savePass($('employeeSelect').value,$('pass').value||'')); $('logoutBtn').onclick=logout;
- document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>tab(b.dataset.tab));
- $('btnIn').onclick=()=>punch('entrada'); $('btnOut').onclick=()=>punch('salida'); $('btnBreakIn').onclick=()=>punch('pausa_inicio'); $('btnBreakOut').onclick=()=>punch('pausa_fin');
- $('myWeekBtn').onclick=()=>{currentMy='week';renderMyCalendar();}; $('myMonthBtn').onclick=()=>{currentMy='month';renderMyCalendar();};
- $('adminEmpFilter').onchange=renderAdminRecords; $('adminPeriod').onchange=renderAdminRecords; $('addEmpBtn').onclick=addEmployee; $('scheduleMode').onchange=modeSchedule; $('scheduleView').onchange=renderSchedules; $('scheduleEmp').onchange=renderSchedules; $('addScheduleBtn').onclick=addSchedule; $('addAbsenceBtn').onclick=addAbsence; $('addExtraBtn').onclick=addExtra;
- $('prevWeek').onclick=()=>{weekStart.setDate(weekStart.getDate()-7);renderMainCalendar()}; $('todayWeek').onclick=()=>{weekStart=startOfWeek(new Date());renderMainCalendar()}; $('nextWeek').onclick=()=>{weekStart.setDate(weekStart.getDate()+7);renderMainCalendar()};
- $('exportBtn').onclick=exportCSV;
- document.addEventListener('click',e=>{let t=e.target, id; if(id=t.dataset.changePass){let em=emp(id); em.pass=document.querySelector(`[data-pass="${id}"]`).value||'1234'; save();}
- if(id=t.dataset.changeRole){let em=emp(id); if(em.id===user.id){alert('No puedes cambiar tu propio rol');return} em.role=document.querySelector(`[data-role="${id}"]`).value; save();}
- if(id=t.dataset.block){let em=emp(id); em.blocked=true; em.blockReason=document.querySelector(`[data-reason="${id}"]`).value; save(); populateLogin();}
- if(id=t.dataset.unblock){let em=emp(id); em.blocked=false; em.blockReason=''; save(); populateLogin();}
- if(id=t.dataset.delSch){state.schedules=state.schedules.filter(s=>s.id!==id); save();}
- if(id=t.dataset.delAbs){state.absences=state.absences.filter(a=>a.id!==id); save();}
- if(id=t.dataset.delExtra){state.extraAuth=state.extraAuth.filter(x=>x.id!==id); save();}
- });
-}
-document.addEventListener('DOMContentLoaded',async()=>{await load(); populateLogin(); bind(); modeSchedule(); renderAll(); setInterval(renderClock,1000);});
+function renderAll(){renderClock(); if(user){renderMyCalendar();renderAdmin();renderMainCalendar();renderLegal();}}
+function bind(){$('loginBtn').onclick=login; $('pass').onkeydown=e=>{if(e.key==='Enter')login()}; $('employeeSelect').onchange=fillPass; $('pass').oninput=()=>savePass($('employeeSelect').value,$('pass').value||''); $('logoutBtn').onclick=logout; document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>tab(b.dataset.tab)); $('btnIn').onclick=()=>punch('entrada'); $('btnOut').onclick=()=>punch('salida'); $('btnBreakIn').onclick=()=>punch('pausa_inicio'); $('btnBreakOut').onclick=()=>punch('pausa_fin'); $('myWeekBtn').onclick=()=>{currentMy='week';renderMyCalendar()}; $('myMonthBtn').onclick=()=>{currentMy='month';renderMyCalendar()}; $('adminEmpFilter').onchange=renderAdminRecords; $('adminPeriod').onchange=renderAdminRecords; $('addEmpBtn').onclick=addEmployee; $('scheduleMode').onchange=modeSchedule; $('scheduleView').onchange=renderSchedules; $('scheduleEmp').onchange=renderSchedules; $('addScheduleBtn').onclick=addSchedule; $('addAbsenceBtn').onclick=addAbsence; $('addExtraBtn').onclick=addExtra; $('prevWeek').onclick=()=>{weekStart.setDate(weekStart.getDate()-7);renderMainCalendar()}; $('todayWeek').onclick=()=>{weekStart=startOfWeek(new Date());renderMainCalendar()}; $('nextWeek').onclick=()=>{weekStart.setDate(weekStart.getDate()+7);renderMainCalendar()}; $('exportBtn').onclick=exportCSV; document.addEventListener('click',e=>{let t=e.target,id;if(id=t.dataset.changePass){let em=emp(id);em.pass=document.querySelector(`[data-pass="${id}"]`).value||'1234';save();populateLogin()} if(id=t.dataset.changeRole){let em=emp(id); if(em.id===user.id){alert('No puedes cambiar tu propio rol');return} em.role=document.querySelector(`[data-role="${id}"]`).value;save()} if(id=t.dataset.block){let em=emp(id);em.blocked=true;em.blockReason=document.querySelector(`[data-reason="${id}"]`).value;save();populateLogin()} if(id=t.dataset.unblock){let em=emp(id);em.blocked=false;em.blockReason='';save();populateLogin()} if(id=t.dataset.delSch){state.schedules=state.schedules.filter(s=>s.id!==id);save()} if(id=t.dataset.delAbs){state.absences=state.absences.filter(a=>a.id!==id);save()} if(id=t.dataset.delExtra){state.extraAuth=state.extraAuth.filter(x=>x.id!==id);save()} });}
+document.addEventListener('DOMContentLoaded',async()=>{await init(); populateLogin(); bind(); modeSchedule(); renderAll(); setInterval(renderClock,1000); if('Notification'in window&&Notification.permission==='default')Notification.requestPermission().catch(()=>{});});
 })();
 </script>
 <script>
 if('serviceWorker' in navigator) window.addEventListener('load',()=>navigator.serviceWorker.register('/service-worker.js').catch(()=>{}));
 </script>
-
-<script>
-/* Selector administrador móvil */
-(function(){
-  function bindAdminMobileSelector(){
-    var sel = document.getElementById('adminMobileSelect');
-    if(!sel || sel.dataset.bound) return;
-    sel.dataset.bound = '1';
-    sel.addEventListener('change', function(){
-      if(typeof tab === 'function'){
-        tab(sel.value);
-      }else{
-        document.querySelectorAll('.page').forEach(function(p){p.classList.add('hidden')});
-        var page = document.getElementById(sel.value);
-        if(page) page.classList.remove('hidden');
-      }
-    });
-  }
-  document.addEventListener('DOMContentLoaded', bindAdminMobileSelector);
-  window.addEventListener('load', bindAdminMobileSelector);
-  setTimeout(bindAdminMobileSelector, 500);
-})();
-</script>
-
-
-<script>
-/* ADMINISTRADOR DIRECTO A ADMIN */
-(function(){
-  function adminDefault(){
-    if(window.user && window.user.role==='admin'){
-      var sel=document.getElementById('adminMobileSelect');
-      if(sel && sel.value==='home'){
-        sel.value='admin';
-      }
-    }
-  }
-  document.addEventListener('DOMContentLoaded', adminDefault);
-  window.addEventListener('load', adminDefault);
-  setTimeout(adminDefault,500);
-})();
-</script>
-
-</body>
-</html>
+</body></html>
