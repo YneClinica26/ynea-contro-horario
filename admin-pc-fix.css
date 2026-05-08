@@ -1,0 +1,25 @@
+
+/* Alineación izquierda PC */
+@media (min-width:1000px){
+  .wrap{
+    max-width:1200px!important;
+    margin-left:20px!important;
+    margin-right:auto!important;
+  }
+
+  .grid,.cols2,.cols3{
+    align-items:flex-start!important;
+  }
+
+  .card{
+    margin-left:0!important;
+  }
+}
+
+/* Selector administrador */
+.admin-selector{
+  width:280px;
+  padding:10px;
+  border-radius:12px;
+  border:1px solid #BFE5D2;
+}
