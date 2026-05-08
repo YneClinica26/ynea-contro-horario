@@ -1,1 +1,1 @@
-{"name":"ynea-control-horario","version":"1.0.0","private":true,"type":"module"}
+{"scripts":{"start":"vite --host 0.0.0.0"},"dependencies":{"@vitejs/plugin-react":"latest","vite":"latest","typescript":"latest","react":"latest","react-dom":"latest","supabase":"latest"}}

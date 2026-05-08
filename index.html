@@ -1,757 +1,334 @@
 <!doctype html>
 <html lang="es">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
-  <title>Control Horario</title>
-  <link rel="manifest" href="manifest.webmanifest">
-  <meta name="theme-color" content="#8CCFB2">
-  <meta name="application-name" content="Control Horario">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-title" content="Control Horario">
-  <meta name="apple-mobile-web-app-status-bar-style" content="default">
-  <meta name="mobile-web-app-capable" content="yes">
-  <link rel="icon" href="/icon-192.png" sizes="192x192" type="image/png">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-
-  <style>
-    :root{--pink:#8CCFB2;--pink2:#EEF9F4;--bg:#F8FCFA;--text:#12241B;--muted:#66766E;--line:#D8F0E7;--ok:#58A981;--bad:#a62b22;--warn:#8b6400}
-    *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(145deg,#F8FCFA,#fff);color:var(--text)}
-    button,input,select{font:inherit} button{border:0;border-radius:14px;padding:11px 14px;font-weight:800;background:#EEF9F4;color:#3B7F60;cursor:pointer} button:hover{filter:brightness(.98)}
-    .primary{background:var(--pink);color:#fff}.danger{background:#ffe3df;color:#8c2117}.ghost{background:#fff;border:1px solid var(--line)}.hidden{display:none!important}
-    .card{background:#fff;border:1px solid var(--line);border-radius:24px;padding:18px;box-shadow:0 18px 46px rgba(132,207,178,.20)}
-    .login{min-height:100vh;display:grid;place-items:center;padding:24px}.loginbox{width:min(430px,100%);text-align:center}.logoLogin{display:block;width:230px;max-width:76%;height:auto;margin:0 auto 8px}.control{letter-spacing:.24em;color:var(--pink);font-weight:950;margin:0 0 22px;font-size:16px}.form{display:grid;gap:13px;text-align:left}.form label{font-size:13px;font-weight:850;color:#705264}.form input,.form select,input,select{width:100%;border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff}.error{color:var(--bad);font-weight:900;min-height:24px;text-align:center}.top{position:sticky;top:0;z-index:5;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line);display:flex;gap:14px;align-items:center;padding:10px 16px}.brand{display:flex;align-items:center;gap:12px;min-width:250px}.brand img{width:118px;height:auto}.brand b{color:var(--pink);display:block}.brand span{color:var(--muted);font-size:12px}.tabs{display:flex;gap:8px;flex-wrap:wrap}.tabs button.active{background:var(--pink);color:white}.user{margin-left:auto;color:var(--muted);font-size:13px;display:flex;align-items:center;gap:8px}.wrap{max-width:1280px;margin:auto;padding:18px}.grid{display:grid;gap:16px}.cols2{grid-template-columns:1fr 1fr}.cols3{grid-template-columns:repeat(3,1fr)}h2,h3{margin:0 0 12px}.muted{color:var(--muted)}.time{font-size:44px;font-weight:950;color:var(--pink)}.actions{display:flex;gap:10px;flex-wrap:wrap}.pill{display:inline-block;border-radius:999px;padding:5px 9px;font-size:12px;font-weight:900}.ok{background:#e2f6ec;color:#116641}.bad{background:#ffe1dd;color:#8b2017}.warn{background:#fff1c8;color:#765000}.notice{border:1px solid var(--line);border-radius:16px;padding:12px;background:#fbfffd}table{width:100%;border-collapse:separate;border-spacing:0 8px}th{text-align:left;color:#806b77;font-size:12px;text-transform:uppercase}td{background:#fff;padding:10px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);vertical-align:middle}td:first-child{border-left:1px solid var(--line);border-radius:12px 0 0 12px}td:last-child{border-right:1px solid var(--line);border-radius:0 12px 12px 0}.scroll{overflow:auto}.kpi{display:flex;justify-content:space-between;align-items:center}.kpi b{font-size:30px;color:var(--pink)}.cal{display:grid;grid-template-columns:78px repeat(7,1fr);border:1px solid var(--line);border-radius:20px;overflow:hidden;background:white}.cell{min-height:58px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:7px}.head{background:#eaf7f0;font-weight:900;text-align:center}.hour{background:#fbfffd;color:#8a7581;font-weight:800}.event{margin-top:5px;border-radius:10px;padding:6px;background:var(--pink2);font-size:12px;font-weight:800;color:#702447}.employee .adminOnly,.employee #tabAdmin,.employee #tabCalendar,.employee #tabLegal,.employee #tabExport{display:none!important}
-    .toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:99;background:#fff;border:1px solid var(--line);box-shadow:0 16px 44px rgba(25,135,84,.18);border-radius:18px;padding:14px 16px;max-width:min(420px,92vw);font-weight:850;color:var(--text)}.toast b{color:var(--pink)}
-    @media(max-width:850px){.cols2,.cols3{grid-template-columns:1fr}.brand img{width:98px}.brand span{display:none}.tabs{display:none}.time{font-size:38px}.cal{grid-template-columns:60px repeat(7,145px);overflow:auto}.logoLogin{width:205px}.wrap{padding:12px}.top{padding:10px}.brand{min-width:auto}.user{font-size:12px}}
-  
-    .btnEntrada{background:#8CCFB2;color:#123b2b}.btnSalida{background:#F2B8A2;color:#5f2418}.btnPausa{background:#fff;border:1px solid var(--line);color:#466157}
-    .miniCal{display:grid;grid-template-columns:repeat(7,minmax(92px,1fr));gap:8px;min-width:720px}
-    .miniCal.month{grid-template-columns:repeat(7,minmax(92px,1fr))}
-    .miniDay{border:1px solid var(--line);border-radius:16px;background:#fff;padding:10px;min-height:96px}
-    .miniDay h4{margin:0 0 6px;font-size:13px;color:var(--muted);font-weight:900}.miniEvent{font-size:12px;margin:4px 0;padding:5px 7px;border-radius:10px;background:#EEF9F4;color:#234537}.miniEvent.salida{background:#FFF0EA;color:#6A2E21}.miniEmpty{color:#98a59f;font-size:12px}.miniSummary{font-size:12px;color:var(--muted);font-weight:800;margin-top:6px}
-
-
-    /* Corrección móvil: escala compacta y sin elementos gigantes */
-    @media(max-width:600px){
-      html,body{width:100%;max-width:100%;overflow-x:hidden;font-size:14px;background:#F8FCFA}
-      body{min-height:100svh}
-      .login{min-height:100svh;padding:14px;align-items:center}
-      .loginbox{width:100%;max-width:360px;padding:18px 16px;border-radius:20px;box-shadow:0 10px 28px rgba(132,207,178,.16)}
-      .logoLogin{width:170px;max-width:64%;margin-bottom:4px}
-      .control{font-size:12px;letter-spacing:.20em;margin-bottom:14px}
-      .form{gap:10px}.form label{font-size:12px}.form input,.form select,input,select{padding:10px;border-radius:12px;font-size:14px}
-      button{padding:10px 12px;border-radius:12px;font-size:14px}
-      .top{position:sticky;top:0;display:flex;gap:8px;padding:7px 8px;align-items:center;min-height:54px}
-      .brand{gap:7px;min-width:0;flex:1}.brand img{width:76px}.brand b{font-size:12px}.brand span{display:none}
-      .user{margin-left:0;font-size:11px;gap:6px;white-space:nowrap}.user button{padding:7px 9px;font-size:12px}
-      .wrap{width:100%;max-width:100%;padding:8px}.grid{gap:10px}.cols2,.cols3{grid-template-columns:1fr}
-      .card{padding:12px;border-radius:16px;box-shadow:0 8px 22px rgba(132,207,178,.13)}
-      h2{font-size:18px;margin-bottom:8px}h3{font-size:15px;margin-bottom:8px}p{margin:6px 0}.muted{font-size:12px}
-      .time{font-size:30px;line-height:1.1}.actions{display:grid;grid-template-columns:1fr;gap:8px}.actions button{width:100%}
-      .notice{font-size:12px;line-height:1.35;padding:10px;border-radius:12px}
-      .pill{font-size:11px;padding:4px 8px}
-      table{font-size:12px;border-spacing:0 6px}th{font-size:10px}td{padding:8px;white-space:nowrap}
-      .miniCal{grid-template-columns:repeat(7,120px);gap:6px;min-width:880px}.miniDay{padding:8px;min-height:82px;border-radius:12px}.miniEvent{font-size:11px;padding:4px 6px}.miniSummary{font-size:11px}
-      .cal{grid-template-columns:52px repeat(7,120px);font-size:12px}.cell{min-height:50px;padding:5px}.event{font-size:11px;padding:5px}
-      .kpi b{font-size:22px}
-      .toast{display:none!important}
-    }
-    @media(max-width:600px){
-      .employee .top .brand div{display:none}
-      .employee .top .brand img{width:86px}
-      .employee .wrap{padding-top:8px}
-    }
-
-  
-/* =========================================================
-   CORRECCIÓN DEFINITIVA MÓVIL
-   Evita que la PWA se vea gigante o se salga de pantalla
-   ========================================================= */
-@media (max-width: 768px){
-  html{
-    -webkit-text-size-adjust:100%;
-    text-size-adjust:100%;
-    overflow-x:hidden!important;
-  }
-  body{
-    width:100vw!important;
-    max-width:100vw!important;
-    overflow-x:hidden!important;
-    font-size:13px!important;
-    line-height:1.25!important;
-  }
-
-  #app, #login, .wrap, .top, .card, .grid{
-    width:100%!important;
-    max-width:100%!important;
-    min-width:0!important;
-  }
-
-  .login{
-    padding:10px!important;
-    min-height:100svh!important;
-  }
-  .loginbox{
-    width:100%!important;
-    max-width:330px!important;
-    padding:14px!important;
-    border-radius:18px!important;
-    transform:none!important;
-  }
-  .logoLogin{
-    width:145px!important;
-    max-width:58%!important;
-    margin-bottom:3px!important;
-  }
-  .control{
-    font-size:11px!important;
-    letter-spacing:.16em!important;
-    margin-bottom:10px!important;
-  }
-
-  .form{
-    gap:8px!important;
-  }
-  .form label{
-    font-size:11px!important;
-  }
-  input, select, textarea, .form input, .form select{
-    min-height:36px!important;
-    height:auto!important;
-    padding:8px 9px!important;
-    border-radius:10px!important;
-    font-size:13px!important;
-  }
-  button{
-    min-height:34px!important;
-    padding:8px 10px!important;
-    border-radius:10px!important;
-    font-size:12px!important;
-    line-height:1.1!important;
-  }
-
-  .top{
-    display:flex!important;
-    align-items:center!important;
-    gap:6px!important;
-    padding:6px 7px!important;
-    min-height:46px!important;
-    max-height:58px!important;
-    overflow:hidden!important;
-  }
-  .brand{
-    flex:1 1 auto!important;
-    min-width:0!important;
-    gap:5px!important;
-  }
-  .brand img{
-    width:64px!important;
-    max-width:64px!important;
-    height:auto!important;
-  }
-  .brand div{
-    min-width:0!important;
-  }
-  .brand b{
-    font-size:11px!important;
-    white-space:nowrap!important;
-  }
-  .brand span{
-    display:none!important;
-  }
-  .user{
-    flex:0 0 auto!important;
-    max-width:48%!important;
-    font-size:10px!important;
-    gap:4px!important;
-    overflow:hidden!important;
-    white-space:nowrap!important;
-  }
-  .user span, #who{
-    max-width:90px!important;
-    overflow:hidden!important;
-    text-overflow:ellipsis!important;
-    white-space:nowrap!important;
-  }
-  .user button{
-    padding:6px 7px!important;
-    font-size:10px!important;
-    min-height:28px!important;
-  }
-
-  .wrap{
-    padding:7px!important;
-    margin:0!important;
-  }
-  .grid{
-    display:grid!important;
-    grid-template-columns:1fr!important;
-    gap:8px!important;
-  }
-  .cols2, .cols3{
-    grid-template-columns:1fr!important;
-  }
-  .card{
-    padding:10px!important;
-    border-radius:14px!important;
-    box-shadow:0 5px 15px rgba(132,207,178,.12)!important;
-  }
-
-  h2{
-    font-size:16px!important;
-    line-height:1.15!important;
-    margin:0 0 7px!important;
-  }
-  h3{
-    font-size:14px!important;
-    line-height:1.15!important;
-    margin:0 0 7px!important;
-  }
-  p, .muted, .notice{
-    font-size:11px!important;
-  }
-  .notice{
-    padding:8px!important;
-    border-radius:10px!important;
-  }
-
-  .time{
-    font-size:24px!important;
-    line-height:1!important;
-    margin:4px 0!important;
-  }
-  .actions{
-    display:grid!important;
-    grid-template-columns:1fr 1fr!important;
-    gap:7px!important;
-  }
-  .actions button{
-    width:100%!important;
-  }
-  #pEntrada, #pSalida{
-    font-size:13px!important;
-    min-height:40px!important;
-  }
-
-  .kpi b{
-    font-size:20px!important;
-  }
-
-  .scroll{
-    max-width:100%!important;
-    overflow-x:auto!important;
-    -webkit-overflow-scrolling:touch;
-  }
-  table{
-    width:100%!important;
-    min-width:520px!important;
-    font-size:11px!important;
-    border-spacing:0 5px!important;
-  }
-  th{
-    font-size:9px!important;
-  }
-  td{
-    padding:6px!important;
-  }
-
-  /* Registros semanales/mensuales: que entren bien en móvil */
-  .miniCal, .miniCal.month{
-    display:grid!important;
-    grid-template-columns:1fr!important;
-    min-width:0!important;
-    width:100%!important;
-    gap:6px!important;
-  }
-  .miniDay{
-    min-height:auto!important;
-    padding:8px!important;
-    border-radius:11px!important;
-  }
-  .miniDay h4{
-    font-size:12px!important;
-    margin-bottom:4px!important;
-  }
-  .miniEvent, .miniEmpty, .miniSummary{
-    font-size:10px!important;
-  }
-
-  /* Calendario administrador: desplazable, no gigante */
-  .cal{
-    width:100%!important;
-    min-width:720px!important;
-    grid-template-columns:44px repeat(7,92px)!important;
-    font-size:10px!important;
-    border-radius:12px!important;
-  }
-  .cell{
-    min-height:44px!important;
-    padding:4px!important;
-  }
-  .event{
-    font-size:9px!important;
-    padding:4px!important;
-    border-radius:7px!important;
-  }
-
-  .tabs{
-    display:none!important;
-  }
-  .toast{
-    display:none!important;
-  }
-}
-
-/* Pantallas muy estrechas */
-@media (max-width: 390px){
-  body{font-size:12px!important;}
-  .logoLogin{width:130px!important;}
-  .loginbox{max-width:310px!important;padding:12px!important;}
-  .brand img{width:58px!important;max-width:58px!important;}
-  .time{font-size:22px!important;}
-  .actions{grid-template-columns:1fr!important;}
-}
-
-
-/* ===== AJUSTE FINAL PC + MÓVIL ===== */
-html,body{
-  width:100%;
-  max-width:100%;
-  overflow-x:hidden!important;
-  -webkit-text-size-adjust:100%;
-  text-size-adjust:100%;
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,viewport-fit=cover">
+<title>Control Horario</title>
+<meta name="theme-color" content="#9ED5B8">
+<meta name="application-name" content="Control Horario">
+<meta name="apple-mobile-web-app-title" content="Control Horario">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<style>
+:root{
+  --green:#9ED5B8; --green2:#EAF8F1; --green3:#6FAF8E; --line:#D8EEE4;
+  --ink:#20382d; --muted:#6d8177; --blue:#7EA7E6; --red:#D97B7B; --bg:#F6FBF8;
 }
 *{box-sizing:border-box}
-img{max-width:100%;height:auto}
-.scroll{max-width:100%;overflow-x:auto!important;-webkit-overflow-scrolling:touch}
-.card{min-width:0!important}
-table{width:100%;max-width:100%;}
-
-@media (min-width: 901px){
-  body{zoom:1!important; overflow-x:hidden!important;}
-  .top{
-    width:100%!important;
-    max-width:100%!important;
-    padding:12px 20px!important;
-    justify-content:flex-start!important;
-  }
-  .wrap{
-    width:calc(100vw - 40px)!important;
-    max-width:1180px!important;
-    margin-left:20px!important;
-    margin-right:auto!important;
-    padding:14px 0 28px 0!important;
-  }
-  #home.grid.cols2{
-    grid-template-columns:minmax(0,540px) minmax(0,540px)!important;
-    justify-content:start!important;
-    align-items:start!important;
-    gap:16px!important;
-  }
-  #admin.page.grid{
-    justify-content:start!important;
-    align-items:start!important;
-    width:100%!important;
-  }
-  #admin .cols3{
-    grid-template-columns:repeat(3,minmax(0,1fr))!important;
-    justify-content:start!important;
-  }
-  #admin .card, #home .card{
-    margin-left:0!important;
-    max-width:100%!important;
-  }
-  .cal{
-    max-width:100%!important;
-    overflow-x:auto!important;
-  }
+html,body{margin:0;width:100%;max-width:100%;overflow-x:hidden;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--ink);-webkit-text-size-adjust:100%}
+.hidden{display:none!important}
+.login{min-height:100svh;display:flex;align-items:center;justify-content:center;padding:18px}
+.card{background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:0 8px 24px rgba(64,130,96,.12);padding:18px;min-width:0}
+.loginbox{width:100%;max-width:390px;text-align:center}
+.logoLogin{width:185px;max-width:70%;height:auto;margin:0 auto 6px;display:block}
+.control{font-size:12px;letter-spacing:.22em;color:#4D8F70;font-weight:700;margin-bottom:14px}
+.form{display:grid;gap:10px;text-align:left}
+label{font-size:12px;color:var(--muted);font-weight:700}
+input,select,textarea,button{font:inherit;border-radius:12px}
+input,select,textarea{width:100%;border:1px solid var(--line);background:#fff;padding:10px 11px;min-height:40px;color:var(--ink)}
+button{border:0;padding:10px 14px;min-height:40px;font-weight:700;cursor:pointer;background:#edf5f1;color:var(--ink)}
+.primary{background:var(--green);color:#fff}
+.btnIn{background:var(--green);color:#fff}
+.btnOut{background:var(--blue);color:#fff}
+.danger{background:#FBECEC;color:#9C3D3D}
+.error{color:#B00020;font-size:12px;min-height:16px;text-align:center}
+.top{height:64px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:10px 20px;gap:12px;position:sticky;top:0;z-index:5}
+.brand{display:flex;align-items:center;gap:10px;min-width:0}
+.brand img{width:92px;height:auto}
+.brand b{font-size:13px;letter-spacing:.12em;color:#4D8F70;white-space:nowrap}
+.userbar{display:flex;align-items:center;gap:8px;font-size:12px;white-space:nowrap}
+.wrap{width:calc(100vw - 40px);max-width:1180px;margin-left:20px;margin-right:auto;padding:16px 0 28px}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:12px}
+.tabs button.active{background:var(--green);color:#fff}
+.page{display:grid;gap:14px}
+.grid{display:grid;gap:14px}
+.cols2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.cols3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.actions{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+h2{font-size:18px;margin:0 0 10px}
+h3{font-size:15px;margin:0 0 8px}
+.muted{color:var(--muted);font-size:13px}
+.time{font-size:36px;font-weight:800;letter-spacing:-1px;margin:8px 0}
+.kpi b{font-size:28px;display:block}
+.scroll{max-width:100%;overflow-x:auto;-webkit-overflow-scrolling:touch}
+table{width:100%;border-collapse:separate;border-spacing:0 7px;font-size:13px;min-width:680px}
+th{text-align:left;color:var(--muted);font-size:11px;text-transform:uppercase}
+td{background:#fff;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:8px}
+td:first-child{border-left:1px solid var(--line);border-radius:10px 0 0 10px}
+td:last-child{border-right:1px solid var(--line);border-radius:0 10px 10px 0}
+.pill{display:inline-block;border-radius:999px;padding:4px 8px;font-size:11px;font-weight:700}
+.ok{background:#EAF8F1;color:#397A59} .warn{background:#FFF5D8;color:#8A6B00} .bad{background:#FFE6E6;color:#9C3D3D}
+.calendar{display:grid;grid-template-columns:repeat(7,minmax(110px,1fr));gap:8px;min-width:760px}
+.day{background:#fff;border:1px solid var(--line);border-radius:14px;min-height:105px;padding:8px}
+.day h4{font-size:12px;color:#4D8F70;margin:0 0 6px;text-transform:capitalize}
+.event{font-size:11px;background:var(--green2);border-radius:9px;padding:5px;margin:4px 0}
+.event.out{background:#EEF3FF}
+.adminRecordCal{display:grid;grid-template-columns:repeat(7,minmax(110px,1fr));gap:8px;min-width:760px}
+.toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:#1e3b2e;color:#fff;padding:10px 14px;border-radius:12px;z-index:20;font-size:13px}
+.employee .adminOnly{display:none!important}
+@media(max-width:900px){
+  .top{height:54px;padding:7px 9px}
+  .brand img{width:68px} .brand b{font-size:10px} .userbar{font-size:10px;gap:5px} .userbar button{padding:6px 8px;min-height:30px;font-size:10px}
+  .wrap{width:100%;max-width:100%;margin:0;padding:8px}
+  .grid,.cols2,.cols3{grid-template-columns:1fr;gap:9px}
+  .card{padding:11px;border-radius:15px}
+  h2{font-size:16px} h3{font-size:14px}
+  .time{font-size:25px}
+  .actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+  .tabs{display:none}
+  input,select,textarea,button{font-size:13px;min-height:36px;padding:8px 9px}
+  .loginbox{max-width:330px;padding:14px} .logoLogin{width:145px} .control{font-size:11px}
+  table{min-width:560px;font-size:11px}
+  .calendar,.adminRecordCal{grid-template-columns:repeat(7,minmax(42px,1fr));gap:5px;min-width:0;width:100%}
+  .day{min-height:64px;padding:5px;border-radius:9px}
+  .day h4{font-size:9px;line-height:1.05;margin-bottom:3px}
+  .event{font-size:8px;line-height:1.1;padding:3px;max-height:34px;overflow:hidden}
 }
-
-.adminFilterLine{margin-bottom:12px}
-.adminCalendarRecords{
-  display:grid;
-  grid-template-columns:repeat(7,minmax(110px,1fr));
-  gap:8px;
-  min-width:760px;
-}
-.adminDay,.miniDay{
-  background:#fff;
-  border:1px solid var(--line);
-  border-radius:14px;
-  padding:9px;
-  min-height:92px;
-}
-.adminDay h4,.miniDay h4{
-  margin:0 0 6px;
-  font-size:12px;
-  color:#3B7F60;
-}
-.miniEvent{
-  background:#EEF9F4;
-  border-radius:9px;
-  padding:5px 6px;
-  margin:4px 0;
-  font-size:11px;
-}
-.miniEvent.salida{background:#EEF3FF}
-.miniEmpty{
-  color:var(--muted);
-  font-size:11px;
-}
-
-@media (max-width: 900px){
-  body{font-size:13px!important;overflow-x:hidden!important}
-  .wrap{width:100%!important;max-width:100%!important;margin:0!important;padding:7px!important}
-  .grid,.cols2,.cols3{grid-template-columns:1fr!important;gap:8px!important}
-  .card{width:100%!important;max-width:100%!important;padding:10px!important}
-  .loginbox{max-width:330px!important}
-  .logoLogin{width:145px!important}
-  .time{font-size:24px!important}
-  .miniCal,.miniCal.month{
-    display:grid!important;
-    grid-template-columns:repeat(7,minmax(38px,1fr))!important;
-    gap:5px!important;
-    width:100%!important;
-    min-width:0!important;
-  }
-  .miniDay{
-    min-height:58px!important;
-    padding:5px!important;
-    border-radius:9px!important;
-  }
-  .miniDay h4{
-    font-size:9px!important;
-    line-height:1.05!important;
-    margin-bottom:3px!important;
-  }
-  .miniEvent,.miniEmpty{
-    font-size:8px!important;
-    line-height:1.1!important;
-    padding:3px!important;
-    overflow:hidden;
-    text-overflow:ellipsis;
-  }
-  .adminCalendarRecords{
-    grid-template-columns:repeat(7,minmax(42px,1fr))!important;
-    gap:5px!important;
-    min-width:0!important;
-    width:100%!important;
-  }
-  .adminDay{
-    min-height:58px!important;
-    padding:5px!important;
-    border-radius:9px!important;
-  }
-  .adminDay h4{font-size:9px!important;line-height:1.05!important}
-}
-
+@media(max-width:390px){.actions{grid-template-columns:1fr}.loginbox{max-width:310px}}
 </style>
 </head>
 <body>
 <div id="toast" class="toast hidden"></div>
+
 <section id="login" class="login">
   <div class="card loginbox">
-    <img class="logoLogin" src="data:image/png;base64,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" alt="Ynea">
+    <img class="logoLogin" src="/logo-ynea.png" alt="Ynea">
     <div class="control">CONTROL HORARIO</div>
     <div class="form">
-      <label>Empleado<select id="employeeSelect" autocomplete="username"></select></label>
-      <label>Clave de acceso<input id="pass" type="password" autocomplete="current-password"></label>
-      <button class="primary" id="loginBtn" type="button">Entrar</button>
+      <label>Empleado
+        <select id="employeeSelect" autocomplete="username"></select>
+      </label>
+      <label>Clave de acceso
+        <input id="pass" type="password" autocomplete="current-password">
+      </label>
+      <button id="loginBtn" class="primary" type="button">Entrar</button>
       <div id="loginError" class="error"></div>
     </div>
   </div>
 </section>
+
 <section id="app" class="hidden">
   <header class="top">
-    <div class="brand"><img src="data:image/png;base64,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" alt="Ynea"><div><b>Control horario</b><span>Registro laboral en la nube</span></div></div>
-    <nav class="tabs">
-      <button id="tabAdmin" class="adminOnly" type="button">Administrador</button>
-      <button id="tabCalendar" class="adminOnly" type="button">Calendario</button>
-      <button id="tabLegal" class="adminOnly" type="button">Registro legal</button>
-      <button id="tabExport" class="adminOnly" type="button">Exportaciones</button>
-    </nav>
-    <div class="user"><span id="who"></span><button class="ghost" id="logoutBtn" type="button">Salir</button></div>
+    <div class="brand"><img src="/logo-ynea.png" alt="Ynea"><b>CONTROL HORARIO</b></div>
+    <div class="userbar"><span id="who"></span><button id="logoutBtn" type="button">Salir</button></div>
   </header>
   <main class="wrap">
+    <nav class="tabs">
+      <button data-tab="home" class="active" type="button">Panel</button>
+      <button data-tab="admin" class="adminOnly" type="button">Administrador</button>
+      <button data-tab="calendar" class="adminOnly" type="button">Calendario</button>
+      <button data-tab="legal" class="adminOnly" type="button">Registro legal</button>
+      <button data-tab="export" class="adminOnly" type="button">Exportaciones</button>
+    </nav>
+
     <section id="home" class="page grid cols2">
-      <div class="card"><h2>Panel empleado</h2><p class="muted" id="todayText"></p><div class="time" id="clock">--:--:--</div><p><span class="pill warn" id="stateText">Sin fichaje</span></p><div class="actions"><button class="btnEntrada" id="pEntrada" type="button">Fichar entrada</button><button class="btnSalida" id="pSalida" type="button">Fichar salida</button><button class="btnPausa" id="pPausaIni" type="button">Iniciar pausa</button><button class="btnPausa" id="pPausaFin" type="button">Fin pausa</button></div><div class="notice"><b>Avisos automáticos obligatorios.</b><br>Se activan según el horario asignado y se paran al fichar. Hay un margen de 10 minutos en entrada y salida que permite fichar sin sumar tiempo trabajado.</div></div>
-      <div class="card"><h3>Mis fichajes de hoy</h3><div class="scroll"><table id="myTable"></table></div></div>
-      <div class="card"><h3>Mis registros semanales</h3><div class="scroll"><div id="weekMyTable" class="miniCal"></div></div></div>
-      <div class="card"><h3>Mis registros mensuales</h3><div class="scroll"><div id="monthMyTable" class="miniCal month"></div></div></div>
-    </section>
-    <section id="admin" class="page hidden adminOnly grid">
-      <div class="grid cols3"><div class="card kpi"><span>Empleados</span><b id="kEmp">0</b></div><div class="card kpi"><span>Fichajes</span><b id="kPunch">0</b></div><div class="card kpi"><span>Trabajando ahora</span><b id="kOpen">0</b></div></div>
-      <div class="card adminRecordCard">
-        <h2>Registros por empleado</h2>
-        <p class="muted">Selecciona un empleado concreto o consulta toda la plantilla.</p>
-        <div class="grid cols3 adminFilterLine">
-          <select id="adminRecordEmp">
-            <option value="all">Todos los empleados</option>
-          </select>
-          <select id="adminRecordPeriod">
-            <option value="week">Semana actual</option>
-            <option value="month">Mes actual</option>
-          </select>
-        </div>
-        <div class="scroll">
-          <div id="adminRecordCalendar" class="adminCalendarRecords"></div>
+      <div class="card">
+        <h2>Panel empleado</h2>
+        <p class="muted" id="todayText"></p>
+        <div class="time" id="clock">--:--</div>
+        <div class="actions">
+          <button id="btnIn" class="btnIn" type="button">Entrada</button>
+          <button id="btnOut" class="btnOut" type="button">Salida</button>
+          <button id="btnBreakIn" type="button">Inicio pausa</button>
+          <button id="btnBreakOut" type="button">Fin pausa</button>
         </div>
       </div>
-
-      <div class="card"><h2>Empleados, claves y bloqueos</h2><div class="grid cols3"><input id="empName" placeholder="Nombre"><input id="empEmail" placeholder="Email"><input id="empPass" placeholder="Clave inicial" value="1234"><select id="empRole"><option value="employee">Empleado</option><option value="admin">Administrador</option></select><button class="primary" id="addEmpBtn" type="button">Añadir empleado</button></div><div class="scroll"><table id="empTable"></table></div></div>
-      <div class="card"><h2>Configuración de horarios</h2><p class="muted">Horarios diarios, semanales o mensuales. Permite varias franjas al día.</p><div class="grid cols3"><select id="scheduleViewMode"><option value="empleado">Ver solo empleado elegido</option><option value="resumen">Resumen de todos</option></select><select id="scheduleEmp"></select><select id="scheduleMode"><option value="diario">Diario</option><option value="semanal" selected>Semanal</option><option value="mensual">Mensual</option></select><select id="scheduleDay"><option value="1">Lunes</option><option value="2">Martes</option><option value="3">Miércoles</option><option value="4">Jueves</option><option value="5">Viernes</option><option value="6">Sábado</option><option value="0">Domingo</option></select><input id="scheduleDate" type="date" class="hidden"><input id="scheduleMonth" type="month" class="hidden"><input id="schIn" type="time" value="09:00"><input id="schOut" type="time" value="14:00"><button class="primary" id="addSchBtn" type="button">Añadir franja</button></div><div class="scroll"><table id="scheduleTable"></table></div></div>
-      <div class="card"><h2>Vacaciones, días libres y festivos</h2><p class="muted">Permite marcar ausencias por empleado o festivos para toda la plantilla.</p><div class="grid cols3"><select id="absenceEmp"></select><select id="absenceType"><option>Vacaciones</option><option>Día libre</option><option>Festivo</option><option>Otros</option></select><input id="absenceStart" type="date"><input id="absenceEnd" type="date"><input id="absenceNote" placeholder="Observaciones"><button class="primary" id="addAbsenceBtn" type="button">Añadir período</button></div><div class="scroll"><table id="absenceTable"></table></div></div>
-      <div class="card"><h2>Horas extra autorizadas</h2><div class="grid cols3"><select id="extraEmp"></select><input id="extraDate" type="date"><input id="extraMin" type="number" placeholder="Minutos autorizados"><input id="extraReason" placeholder="Motivo/autorización"><button class="primary" id="addExtraBtn" type="button">Autorizar</button></div><div class="scroll"><table id="extraTable"></table></div></div>
+      <div class="card">
+        <h2>Mis registros</h2>
+        <div class="actions">
+          <button id="myWeekBtn" class="primary" type="button">Semana</button>
+          <button id="myMonthBtn" type="button">Mes</button>
+        </div>
+        <div class="scroll"><div id="myCalendar" class="calendar"></div></div>
+      </div>
     </section>
-    <section id="calendar" class="page hidden adminOnly"><div class="card"><h2>Calendario tipo Google Calendar</h2><div class="actions"><button id="prevWeek" type="button">Anterior</button><button id="todayWeek" type="button">Hoy</button><button id="nextWeek" type="button">Siguiente</button><b id="weekLabel"></b></div><div class="cal" id="calGrid"></div></div></section>
-    <section id="legal" class="page hidden adminOnly"><div class="card"><h2>Registro legal</h2><p class="muted">Identificación del empleado, hora, evento, dispositivo, clasificación y huella.</p><div class="scroll"><table id="legalTable"></table></div></div></section>
-    <section id="export" class="page hidden adminOnly"><div class="card"><h2>Exportaciones</h2><button class="primary" id="exportBtn" type="button">Exportar a Excel CSV</button><div class="scroll"><table id="exportTable"></table></div></div></section>
+
+    <section id="admin" class="page hidden adminOnly">
+      <div class="grid cols3">
+        <div class="card kpi"><span>Empleados</span><b id="kEmp">0</b></div>
+        <div class="card kpi"><span>Fichajes</span><b id="kPunch">0</b></div>
+        <div class="card kpi"><span>Trabajando ahora</span><b id="kOpen">0</b></div>
+      </div>
+
+      <div class="card">
+        <h2>Registros por empleado</h2>
+        <div class="grid cols3">
+          <select id="adminEmpFilter"><option value="all">Todos los empleados</option></select>
+          <select id="adminPeriod"><option value="week">Semana actual</option><option value="month">Mes actual</option></select>
+        </div>
+        <div class="scroll"><div id="adminRecords" class="adminRecordCal"></div></div>
+      </div>
+
+      <div class="card">
+        <h2>Empleados, claves, roles y bloqueos</h2>
+        <div class="grid cols3">
+          <input id="empName" placeholder="Nombre">
+          <input id="empEmail" placeholder="Email">
+          <input id="empPass" placeholder="Clave inicial" value="1234">
+          <select id="empRole"><option value="employee">Empleado</option><option value="admin">Administrador</option></select>
+          <button id="addEmpBtn" class="primary" type="button">Añadir empleado</button>
+        </div>
+        <div class="scroll"><table id="empTable"></table></div>
+      </div>
+
+      <div class="card">
+        <h2>Configuración de horarios</h2>
+        <p class="muted">Diario, semanal o mensual. Permite varias franjas diarias.</p>
+        <div class="grid cols3">
+          <select id="scheduleView"><option value="employee">Ver empleado elegido</option><option value="all">Resumen de todos</option></select>
+          <select id="scheduleEmp"></select>
+          <select id="scheduleMode"><option value="daily">Diario</option><option value="weekly" selected>Semanal</option><option value="monthly">Mensual</option></select>
+          <select id="scheduleDay"><option value="1">Lunes</option><option value="2">Martes</option><option value="3">Miércoles</option><option value="4">Jueves</option><option value="5">Viernes</option><option value="6">Sábado</option><option value="0">Domingo</option></select>
+          <input id="scheduleDate" type="date" class="hidden">
+          <input id="scheduleMonth" type="month" class="hidden">
+          <input id="schIn" type="time" value="09:00">
+          <input id="schOut" type="time" value="14:00">
+          <button id="addScheduleBtn" class="primary" type="button">Añadir franja</button>
+        </div>
+        <div class="scroll"><table id="scheduleTable"></table></div>
+      </div>
+
+      <div class="card">
+        <h2>Vacaciones, días libres y festivos</h2>
+        <div class="grid cols3">
+          <select id="absenceEmp"></select>
+          <select id="absenceType"><option>Vacaciones</option><option>Día libre</option><option>Festivo</option><option>Otros</option></select>
+          <input id="absenceStart" type="date">
+          <input id="absenceEnd" type="date">
+          <input id="absenceNote" placeholder="Observaciones">
+          <button id="addAbsenceBtn" class="primary" type="button">Añadir período</button>
+        </div>
+        <div class="scroll"><table id="absenceTable"></table></div>
+      </div>
+
+      <div class="card">
+        <h2>Horas extra autorizadas</h2>
+        <div class="grid cols3">
+          <select id="extraEmp"></select>
+          <input id="extraDate" type="date">
+          <input id="extraMin" type="number" placeholder="Minutos autorizados">
+          <input id="extraReason" placeholder="Motivo">
+          <button id="addExtraBtn" class="primary" type="button">Autorizar</button>
+        </div>
+        <div class="scroll"><table id="extraTable"></table></div>
+      </div>
+    </section>
+
+    <section id="calendar" class="page hidden adminOnly">
+      <div class="card">
+        <h2>Calendario tipo Google Calendar</h2>
+        <div class="actions"><button id="prevWeek" type="button">Anterior</button><button id="todayWeek" type="button">Hoy</button><button id="nextWeek" type="button">Siguiente</button><b id="weekLabel"></b></div>
+        <div class="scroll"><div id="mainCalendar" class="calendar"></div></div>
+      </div>
+    </section>
+
+    <section id="legal" class="page hidden adminOnly"><div class="card"><h2>Registro legal</h2><div class="scroll"><table id="legalTable"></table></div></div></section>
+    <section id="export" class="page hidden adminOnly"><div class="card"><h2>Exportaciones</h2><button id="exportBtn" class="primary" type="button">Exportar CSV / Excel</button><div class="scroll"><table id="exportTable"></table></div></div></section>
   </main>
 </section>
+
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
 (function(){
-  'use strict';
-  var LS='ynea_control_horario_CLOUD_20260508_v1';
-  var SUPABASE_URL='https://trnhjvhrhcxegsokbope.supabase.co';
-  var SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRybmhqdmhyaGN4ZWdzb2tib3BlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyMTMxMTMsImV4cCI6MjA5Mzc4OTExM30.PsceFoZ_MIW0IgzNC6C8NwuLK-KFoAJm6mDI-90rQxY';
-  var CLOUD_TABLE='ynea_app_state', CLOUD_ID='main';
-  var supa=null, remoteApplying=false, cloudStatus='local';
-  var state=null, user=null, weekStart=startOfWeek(new Date());
-  var PASS_LS='ynea_saved_employee_keys'; var SELECT_LS='ynea_saved_employee_selected';
-  function el(id){return document.getElementById(id)}
-  function seed(){return {employees:[{id:'admin',name:'Administrador',email:'admin@ynea.es',pass:'1234',role:'admin',blocked:false,blockReason:''},{id:'susana',name:'Susana',email:'susana@ynea.es',pass:'1234',role:'employee',blocked:false,blockReason:''}],punches:[],schedules:[{id:'s1',employeeId:'susana',mode:'semanal',day:'1',in:'09:00',out:'14:00'},{id:'s2',employeeId:'susana',mode:'semanal',day:'1',in:'16:00',out:'20:00'},{id:'s3',employeeId:'susana',mode:'semanal',day:'2',in:'09:00',out:'14:00'},{id:'s4',employeeId:'susana',mode:'semanal',day:'3',in:'09:00',out:'14:00'},{id:'s5',employeeId:'susana',mode:'semanal',day:'4',in:'09:00',out:'14:00'},{id:'s6',employeeId:'susana',mode:'semanal',day:'5',in:'09:00',out:'14:00'}],extraAuth:[],absences:[],sent:{}}}
-  function initSupabase(){try{if(window.supabase&&SUPABASE_URL&&SUPABASE_ANON_KEY){supa=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);return true}}catch(e){}return false}
-  async function load(){
-    var local=null;try{local=JSON.parse(localStorage.getItem(LS))}catch(e){}
-    state=local||seed();ensureBase();localStorage.setItem(LS,JSON.stringify(state));
-    if(!initSupabase()){cloudStatus='local';return}
-    try{
-      var res=await supa.from(CLOUD_TABLE).select('data').eq('id',CLOUD_ID).maybeSingle();
-      if(res.error)throw res.error;
-      if(res.data&&res.data.data){state=res.data.data;ensureBase();localStorage.setItem(LS,JSON.stringify(state));cloudStatus='nube'}
-      else {await supa.from(CLOUD_TABLE).upsert({id:CLOUD_ID,data:state,updated_at:new Date().toISOString()});cloudStatus='nube'}
-      subscribeRealtime();
-    }catch(e){cloudStatus='local';console.warn('Ynea cloud fallback:',e);setTimeout(function(){toast('Modo local','Para activar la nube ejecuta el SQL incluido en Supabase.')},800)}
-  }
-  function subscribeRealtime(){
-    if(!supa)return;
-    try{
-      supa.channel('ynea-control-horario-realtime')
-        .on('postgres_changes',{event:'*',schema:'public',table:CLOUD_TABLE,filter:'id=eq.'+CLOUD_ID},function(payload){
-          if(payload&&payload.new&&payload.new.data){remoteApplying=true;state=payload.new.data;ensureBase();localStorage.setItem(LS,JSON.stringify(state));renderAll();populateEmployeeSelect();remoteApplying=false;}
-        }).subscribe();
-    }catch(e){console.warn(e)}
-  }
-  function ensureBase(){state.employees=state.employees||[];state.punches=state.punches||[];state.schedules=state.schedules||[];state.extraAuth=state.extraAuth||[];state.absences=state.absences||[];state.sent=state.sent||{};if(!findByEmail('admin@ynea.es'))state.employees.unshift({id:'admin',name:'Administrador',email:'admin@ynea.es',pass:'1234',role:'admin',blocked:false,blockReason:''});if(!findByEmail('susana@ynea.es'))state.employees.push({id:'susana',name:'Susana',email:'susana@ynea.es',pass:'1234',role:'employee',blocked:false,blockReason:''})}
-  function findByEmail(email){email=String(email||'').trim().toLowerCase();for(var i=0;i<state.employees.length;i++){if(String(state.employees[i].email||'').trim().toLowerCase()===email)return state.employees[i]}return null}
-  function normName(v){return String(v||'').trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'')}
-  function findByName(name){var n=normName(name);for(var i=0;i<state.employees.length;i++){if(normName(state.employees[i].name)===n)return state.employees[i]}return null}
-  function save(){ensureBase();localStorage.setItem(LS,JSON.stringify(state));if(supa&&!remoteApplying){supa.from(CLOUD_TABLE).upsert({id:CLOUD_ID,data:state,updated_at:new Date().toISOString()}).then(function(r){if(r&&r.error)console.warn(r.error)})}renderAll()}
-  function savedKeys(){try{return JSON.parse(localStorage.getItem(PASS_LS)||'{}')}catch(e){return {}}}
-  function saveKey(empId,pass){var m=savedKeys();m[empId]=pass;localStorage.setItem(PASS_LS,JSON.stringify(m));localStorage.setItem(SELECT_LS,empId)}
-  function populateEmployeeSelect(){if(!el('employeeSelect'))return;var cur=el('employeeSelect').value||localStorage.getItem(SELECT_LS)||'',html='';for(var i=0;i<state.employees.length;i++){var e=state.employees[i];if(!e.blocked)html+='<option value="'+e.id+'">'+esc(e.name)+'</option>'}el('employeeSelect').innerHTML=html;if(cur&&findEmp(cur)&&!findEmp(cur).blocked)el('employeeSelect').value=cur;fillSavedPass()}el('employeeSelect').innerHTML=html;if(cur)el('employeeSelect').value=cur;fillSavedPass()}
-  function fillSavedPass(){if(!el('employeeSelect')||!el('pass'))return;var m=savedKeys(),id=el('employeeSelect').value;localStorage.setItem(SELECT_LS,id||'');if(m[id])el('pass').value=m[id]}
-  function login(){var id=el('employeeSelect').value;var pass=String(el('pass').value||'');var e=findEmp(id);if(!e||String(e.pass||'')!==pass){el('loginError').textContent='Empleado o clave incorrectos';return}if(e.blocked){el('loginError').textContent='Empleado bloqueado: '+(e.blockReason||'sin causa');return}saveKey(e.id,pass);user=e;el('loginError').textContent='';el('login').classList.add('hidden');el('app').classList.remove('hidden');document.body.classList.toggle('employee',e.role!=='admin');el('who').textContent=e.name;tab('home');requestNotifications();renderAll()}
-  function logout(){user=null;el('app').classList.add('hidden');el('login').classList.remove('hidden');el('loginError').textContent='';populateEmployeeSelect()}
-  function tab(id){var pages=document.querySelectorAll('.page');for(var i=0;i<pages.length;i++)pages[i].classList.add('hidden');if(el(id))el(id).classList.remove('hidden');var buttons=document.querySelectorAll('.tabs button');for(var j=0;j<buttons.length;j++)buttons[j].classList.remove('active');var map={admin:'tabAdmin',calendar:'tabCalendar',legal:'tabLegal',export:'tabExport'};if(el(map[id]))el(map[id]).classList.add('active');renderAll()}
-  function requestNotifications(){try{if('Notification' in window && Notification.permission==='default')Notification.requestPermission()}catch(e){}}
-  function toast(t,b){var box=el('toast');if(!box)return;box.innerHTML='<b>'+esc(t)+'</b><br>'+esc(b);box.classList.remove('hidden');clearTimeout(window.__toastTimer);window.__toastTimer=setTimeout(function(){box.classList.add('hidden')},6500)}
-  function screenNotice(t,b){toast(t,b);try{if('Notification' in window && Notification.permission==='granted'){new Notification(t,{body:b,icon:'icon-192.png'})}}catch(e){}}
-  function queueEmail(to,subject,body){var q=JSON.parse(localStorage.getItem('ynea_email_queue')||'[]');q.push({to:to,subject:subject,body:body,date:new Date().toISOString()});localStorage.setItem('ynea_email_queue',JSON.stringify(q))}
-  function emailNotice(to,subject,body){if(!to)return;try{fetch('/api/send-email',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({to:to,subject:subject,body:body})}).catch(function(){queueEmail(to,subject,body)})}catch(e){queueEmail(to,subject,body)}}
-  function notify(t,b){screenNotice(t,b);if(user&&user.email)emailNotice(user.email,t,b)}
-  function nowISO(){return new Date().toISOString()} function dkey(d){return new Date(d).toISOString().slice(0,10)} function monthKey(d){return dkey(d).slice(0,7)} function dayNum(d){return String(new Date(d).getDay())} function fmtTime(d){return new Date(d).toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'})} function fmtDate(d){return new Date(d).toLocaleDateString('es-ES')} function min(h){var a=String(h||'00:00').split(':');return Number(a[0])*60+Number(a[1])} function label(x){return {entrada:'Entrada',salida:'Salida',pausa_inicio:'Inicio pausa',pausa_fin:'Fin pausa'}[x]||x} function hash(p){try{return btoa(unescape(encodeURIComponent([p.employeeId,p.time,p.type,p.device].join('|')))).slice(0,18)}catch(e){return String(Date.now()).slice(-10)}}
-  function punch(type){if(!user)return;var p={id:'p'+Date.now()+Math.floor(Math.random()*999),employeeId:user.id,type:type,time:nowISO(),device:navigator.userAgent.indexOf('Mobile')>=0?'Móvil':'PC'};p.hash=hash(p);state.punches.push(p);clearTodayNotice(user.id,type);save();notify('Fichaje registrado','Se ha guardado: '+label(type)+' a las '+fmtTime(p.time))}
-  function clearTodayNotice(emp,type){var today=dkey(new Date());for(var k in state.sent){if(k.indexOf(emp+'_'+today+'_'+type)>=0)delete state.sent[k]}localStorage.setItem(LS,JSON.stringify(state))}
-  function schedulesFor(emp,date){var ds=dkey(date),dn=dayNum(date),mo=monthKey(date),out=[];for(var i=0;i<state.schedules.length;i++){var s=state.schedules[i];if(s.employeeId===emp&&((s.mode==='diario'&&s.date===ds)||(s.mode==='semanal'&&String(s.day)===dn)||(s.mode==='mensual'&&s.month===mo)))out.push(s)}return out}
-  function hasPunch(emp,type,today,target){for(var i=0;i<state.punches.length;i++){var p=state.punches[i],pd=new Date(p.time),pm=pd.getHours()*60+pd.getMinutes();if(p.employeeId===emp&&p.type===type&&dkey(p.time)===today&&Math.abs(pm-target)<120)return true}return false}
-  function checkReminders(){if(!user)return;var arr=schedulesFor(user.id,new Date()),now=new Date(),mins=now.getHours()*60+now.getMinutes(),today=dkey(now),margin=10;for(var i=0;i<arr.length;i++){var s=arr[i];var checks=[['entrada',min(s.in),'Hora de fichar entrada','Recuerda fichar tu entrada'],['salida',min(s.out),'Hora de fichar salida','Recuerda fichar tu salida'],['entrada_olvidada',min(s.in)+margin,'Falta fichaje de entrada','No consta tu entrada'],['salida_olvidada',min(s.out)+margin,'Falta fichaje de salida','No consta tu salida']];for(var j=0;j<checks.length;j++){var c=checks[j],type=c[0].indexOf('salida')===0?'salida':'entrada',key=user.id+'_'+today+'_'+type+'_'+i+'_'+c[0];if(mins>=c[1]&&mins<=c[1]+2&&!state.sent[key]&&!hasPunch(user.id,type,today,c[1])){notify(c[2],c[3]);state.sent[key]=true;save()}}}}
-  function renderAll(){if(!state)return;renderClock();renderHome();renderAdmin();renderCalendar();renderLegal()}
-  function renderClock(){if(el('clock'))el('clock').textContent=new Date().toLocaleTimeString('es-ES');if(el('todayText'))el('todayText').textContent=new Date().toLocaleDateString('es-ES',{weekday:'long',day:'2-digit',month:'long',year:'numeric'})}
-  function renderHome(){if(!user)return;var last=null;for(var i=0;i<state.punches.length;i++)if(state.punches[i].employeeId===user.id)last=state.punches[i];el('stateText').textContent=last?label(last.type):'Sin fichaje';var today=dkey(new Date()),rows='<tr><th>Hora</th><th>Evento</th><th>Dispositivo</th></tr>';for(var j=state.punches.length-1;j>=0;j--){var p=state.punches[j];if(p.employeeId===user.id&&dkey(p.time)===today)rows+='<tr><td>'+fmtTime(p.time)+'</td><td>'+label(p.type)+'</td><td>'+p.device+'</td></tr>'}el('myTable').innerHTML=rows;renderMyPeriodTables()}
-  function renderMyPeriodTables(){
-    if(!user)return;
-    var now=new Date(), ws=startOfWeek(now), weekDays=[], i;
-    for(i=0;i<7;i++){var d=new Date(ws);d.setDate(d.getDate()+i);weekDays.push(d)}
-    function dayEvents(date){
-      var ds=dkey(date), out=[];
-      for(var j=0;j<state.punches.length;j++){var p=state.punches[j];if(p.employeeId===user.id&&dkey(p.time)===ds)out.push(p)}
-      out.sort(function(a,b){return new Date(a.time)-new Date(b.time)});return out;
-    }
-    function renderDays(days, monthMode){
-      var html='';
-      for(var a=0;a<days.length;a++){
-        var d=days[a], evs=dayEvents(d), total=0;
-        html+='<div class="miniDay"><h4>'+d.toLocaleDateString('es-ES',{weekday:monthMode?'short':'long',day:'2-digit',month:'2-digit'})+'</h4>';
-        if(!evs.length) html+='<div class="miniEmpty">Sin registros</div>';
-        for(var e=0;e<evs.length;e++){var p=evs[e], cls=p.type==='salida'?' salida':''; html+='<div class="miniEvent'+cls+'"><b>'+fmtTime(p.time)+'</b> · '+label(p.type)+'</div>'}
-        html+='</div>';
-      }
-      return html;
-    }
-    if(el('weekMyTable')) el('weekMyTable').innerHTML=renderDays(weekDays,false);
-    var ms=new Date(now.getFullYear(),now.getMonth(),1), me=new Date(now.getFullYear(),now.getMonth()+1,0), monthDays=[];
-    for(var dd=new Date(ms); dd<=me; dd.setDate(dd.getDate()+1)) monthDays.push(new Date(dd));
-    if(el('monthMyTable')) el('monthMyTable').innerHTML=renderDays(monthDays,true);
-  }
-  
-  function renderAdminRecords(){
-    if(!user||user.role!=='admin'||!el('adminRecordEmp')||!el('adminRecordCalendar'))return;
-    var current=el('adminRecordEmp').value||'all';
-    var opts='<option value="all">Todos los empleados</option>';
-    for(var i=0;i<state.employees.length;i++){
-      opts+='<option value="'+state.employees[i].id+'">'+esc(state.employees[i].name)+'</option>';
-    }
-    el('adminRecordEmp').innerHTML=opts;
-    var exists=current==='all';
-    for(var j=0;j<state.employees.length;j++){ if(state.employees[j].id===current) exists=true; }
-    el('adminRecordEmp').value=exists?current:'all';
-    el('adminRecordEmp').onchange=renderAdminRecordCalendar;
-    if(el('adminRecordPeriod'))el('adminRecordPeriod').onchange=renderAdminRecordCalendar;
-    renderAdminRecordCalendar();
-  }
-  function renderAdminRecordCalendar(){
-    if(!el('adminRecordCalendar'))return;
-    var emp=el('adminRecordEmp')?el('adminRecordEmp').value:'all';
-    var period=el('adminRecordPeriod')?el('adminRecordPeriod').value:'week';
-    var now=new Date(), days=[];
-    if(period==='month'){
-      var first=new Date(now.getFullYear(),now.getMonth(),1);
-      var last=new Date(now.getFullYear(),now.getMonth()+1,0);
-      for(var d=new Date(first);d<=last;d.setDate(d.getDate()+1))days.push(new Date(d));
-    }else{
-      var ws=startOfWeek(now);
-      for(var i=0;i<7;i++){var wd=new Date(ws);wd.setDate(wd.getDate()+i);days.push(wd);}
-    }
-    function eventsForDay(date){
-      var ds=dkey(date), out=[];
-      for(var p=0;p<state.punches.length;p++){
-        var punch=state.punches[p];
-        if(dkey(punch.time)===ds && (emp==='all'||punch.employeeId===emp))out.push(punch);
-      }
-      out.sort(function(a,b){return new Date(a.time)-new Date(b.time)});
-      return out;
-    }
-    var html='';
-    for(var x=0;x<days.length;x++){
-      var day=days[x], events=eventsForDay(day);
-      html+='<div class="adminDay"><h4>'+day.toLocaleDateString('es-ES',{weekday:'short',day:'2-digit',month:'2-digit'})+'</h4>';
-      if(!events.length)html+='<div class="miniEmpty">Sin registros</div>';
-      for(var e=0;e<events.length;e++){
-        var p=events[e], empObj=findEmp(p.employeeId)||{};
-        html+='<div class="miniEvent '+(p.type==='salida'?'salida':'')+'"><b>'+fmtTime(p.time)+'</b> · '+esc(empObj.name||'Empleado')+' · '+label(p.type)+'</div>';
-      }
-      html+='</div>';
-    }
-    el('adminRecordCalendar').innerHTML=html;
-  }
+'use strict';
+const SUPABASE_URL='https://trnhjvhrhcxegsokbope.supabase.co';
+const SUPABASE_ANON_KEY='eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InRybmhqdmhyaGN4ZWdzb2tib3BlIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyMTMxMTMsImV4cCI6MjA5Mzc4OTExM30.PsceFoZ_MIW0IgzNC6C8NwuLK-KFoAJm6mDI-90rQxY';
+const CLOUD_TABLE='ynea_app_state', CLOUD_ID='main';
+const LS='ynea_control_horario_clean_v1';
+const KEY_LS='ynea_saved_employee_keys';
+const SEL_LS='ynea_saved_employee_selected';
+let supa=null, state=null, user=null, currentMy='week', weekStart=startOfWeek(new Date()), remote=false;
 
-  function renderAdmin(){if(!user||user.role!=='admin')return;el('kEmp').textContent=state.employees.length;el('kPunch').textContent=state.punches.length;var open=0;for(var i=0;i<state.employees.length;i++){var last=null;for(var j=0;j<state.punches.length;j++)if(state.punches[j].employeeId===state.employees[i].id)last=state.punches[j];if(last&&last.type==='entrada')open++}el('kOpen').textContent=open;var opts='';for(var k=0;k<state.employees.length;k++)opts+='<option value="'+state.employees[k].id+'">'+esc(state.employees[k].name)+'</option>';el('scheduleEmp').innerHTML=opts;el('extraEmp').innerHTML=opts;el('absenceEmp').innerHTML='<option value="all">Toda la plantilla / festivo general</option>'+opts;var html='<tr><th>Nombre</th><th>Email</th><th>Rol</th><th>Estado</th><th>Clave</th><th>Bloqueo</th></tr>';for(var n=0;n<state.employees.length;n++){var e=state.employees[n];html+='<tr><td>'+esc(e.name)+'</td><td>'+esc(e.email)+'</td><td><select id="role_'+e.id+'"><option value="employee" '+(e.role==='employee'?'selected':'')+'>Empleado</option><option value="admin" '+(e.role==='admin'?'selected':'')+'>Administrador</option></select><button class="chgRole" data-id="'+e.id+'" type="button">Cambiar rol</button></td><td>'+(e.blocked?'<span class="pill bad">Bloqueado: '+esc(e.blockReason||'')+'</span>':'<span class="pill ok">Activo</span>')+'</td><td><input id="pass_'+e.id+'" value="'+esc(e.pass||'')+'" style="max-width:110px"><button class="chgPass" data-id="'+e.id+'" type="button">Cambiar</button></td><td>'+(e.id===user.id?'—':'<select id="reason_'+e.id+'"><option>Baja laboral</option><option>Fin contrato</option><option>Otros</option></select><button class="danger blockEmp" data-id="'+e.id+'" type="button">Bloquear</button><button class="unblockEmp" data-id="'+e.id+'" type="button">Activar</button>')+'</td></tr>'}el('empTable').innerHTML=html;bindDynamic();renderSchedules();renderAbsences();renderExtras();renderAdminRecords();populateEmployeeSelect()}
-  function bindDynamic(){var a=document.querySelectorAll('.chgPass');for(var i=0;i<a.length;i++)a[i].onclick=function(){changePass(this.getAttribute('data-id'))};var r=document.querySelectorAll('.chgRole');for(var rr=0;rr<r.length;rr++)r[rr].onclick=function(){changeRole(this.getAttribute('data-id'))};var b=document.querySelectorAll('.blockEmp');for(var j=0;j<b.length;j++)b[j].onclick=function(){blockEmp(this.getAttribute('data-id'))};var c=document.querySelectorAll('.unblockEmp');for(var k=0;k<c.length;k++)c[k].onclick=function(){unblockEmp(this.getAttribute('data-id'))};var d=document.querySelectorAll('.delSch');for(var l=0;l<d.length;l++)d[l].onclick=function(){delSchedule(this.getAttribute('data-id'))};var x=document.querySelectorAll('.delExtra');for(var m=0;m<x.length;m++)x[m].onclick=function(){delExtra(this.getAttribute('data-id'))};var y=document.querySelectorAll('.delAbsence');for(var n=0;n<y.length;n++)y[n].onclick=function(){delAbsence(this.getAttribute('data-id'))}}
-  function esc(s){return String(s==null?'':s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
-  function addEmployee(){if(!el('empName').value||!el('empEmail').value){alert('Rellena nombre y email');return}state.employees.push({id:'e'+Date.now(),name:el('empName').value,email:String(el('empEmail').value).trim().toLowerCase(),pass:el('empPass').value||'1234',role:el('empRole').value,blocked:false,blockReason:''});el('empName').value='';el('empEmail').value='';el('empPass').value='1234';save()}
-  function changePass(id){var e=findEmp(id),v=el('pass_'+id).value;if(!v){alert('La clave no puede estar vacía');return}e.pass=v;save();alert('Clave cambiada')}
-  function changeRole(id){var e=findEmp(id);if(!e)return;if(e.id===user.id){alert('No puedes cambiar tu propio rol desde esta pantalla');return}e.role=el('role_'+id).value;save();alert('Rol cambiado')}
-  function blockEmp(id){var e=findEmp(id);e.blocked=true;e.blockReason=el('reason_'+id).value;save()} function unblockEmp(id){var e=findEmp(id);e.blocked=false;e.blockReason='';save()} function findEmp(id){for(var i=0;i<state.employees.length;i++)if(state.employees[i].id===id)return state.employees[i];return null}
-  function modeSchedule(){var m=el('scheduleMode').value;el('scheduleDay').classList.toggle('hidden',m!=='semanal');el('scheduleDate').classList.toggle('hidden',m!=='diario');el('scheduleMonth').classList.toggle('hidden',m!=='mensual')}
-  function addSchedule(){var m=el('scheduleMode').value,s={id:'s'+Date.now(),employeeId:el('scheduleEmp').value,mode:m,in:el('schIn').value,out:el('schOut').value};if(m==='semanal')s.day=el('scheduleDay').value;if(m==='diario')s.date=el('scheduleDate').value||dkey(new Date());if(m==='mensual')s.month=el('scheduleMonth').value||monthKey(new Date());state.schedules.push(s);save()}
-  function renderSchedules(){if(!el('scheduleTable'))return;var view=el('scheduleViewMode')?el('scheduleViewMode').value:'empleado',emp=el('scheduleEmp')?el('scheduleEmp').value:'';var html='<tr><th>Empleado</th><th>Tipo</th><th>Día/fecha/mes</th><th>Franja</th><th></th></tr>';for(var i=0;i<state.schedules.length;i++){var s=state.schedules[i];if(view==='empleado'&&emp&&s.employeeId!==emp)continue;var e=findEmp(s.employeeId)||{},dia=s.day?['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'][Number(s.day)]:(s.date||s.month||'');html+='<tr><td>'+esc(e.name||'')+'</td><td>'+esc(s.mode)+'</td><td>'+esc(dia)+'</td><td>'+esc(s.in)+' - '+esc(s.out)+'</td><td><button class="danger delSch" data-id="'+s.id+'" type="button">Eliminar</button></td></tr>'}el('scheduleTable').innerHTML=html;bindDynamic()}
-  function delSchedule(id){state.schedules=state.schedules.filter(function(s){return s.id!==id});save()}
-  function addAbsence(){var emp=el('absenceEmp').value,st=el('absenceStart').value,en=el('absenceEnd').value||st;if(!st){alert('Indica fecha de inicio');return}state.absences.push({id:'a'+Date.now(),employeeId:emp,type:el('absenceType').value,start:st,end:en,note:el('absenceNote').value||''});el('absenceNote').value='';save()}
-  function renderAbsences(){if(!el('absenceTable'))return;var html='<tr><th>Empleado</th><th>Tipo</th><th>Desde</th><th>Hasta</th><th>Observaciones</th><th></th></tr>';for(var i=0;i<state.absences.length;i++){var a=state.absences[i],e=a.employeeId==='all'?{name:'Toda la plantilla'}:(findEmp(a.employeeId)||{});html+='<tr><td>'+esc(e.name||'')+'</td><td>'+esc(a.type)+'</td><td>'+esc(a.start)+'</td><td>'+esc(a.end)+'</td><td>'+esc(a.note)+'</td><td><button class="danger delAbsence" data-id="'+a.id+'" type="button">Eliminar</button></td></tr>'}el('absenceTable').innerHTML=html;bindDynamic()}
-  function delAbsence(id){state.absences=state.absences.filter(function(a){return a.id!==id});save()}
-  function absencesFor(emp,date){var ds=dkey(date),out=[];for(var i=0;i<state.absences.length;i++){var a=state.absences[i];if((a.employeeId==='all'||a.employeeId===emp)&&ds>=a.start&&ds<=a.end)out.push(a)}return out}
-  function addExtra(){state.extraAuth.push({id:'x'+Date.now(),employeeId:el('extraEmp').value,date:el('extraDate').value||dkey(new Date()),minutes:Number(el('extraMin').value)||0,reason:el('extraReason').value||'Autorizado'});el('extraReason').value='';save()} function renderExtras(){if(!el('extraTable'))return;var html='<tr><th>Empleado</th><th>Fecha</th><th>Minutos</th><th>Motivo</th><th></th></tr>';for(var i=0;i<state.extraAuth.length;i++){var x=state.extraAuth[i],e=findEmp(x.employeeId)||{};html+='<tr><td>'+esc(e.name||'')+'</td><td>'+esc(x.date)+'</td><td>'+esc(x.minutes)+'</td><td>'+esc(x.reason)+'</td><td><button class="danger delExtra" data-id="'+x.id+'" type="button">Eliminar</button></td></tr>'}el('extraTable').innerHTML=html;bindDynamic()} function delExtra(id){state.extraAuth=state.extraAuth.filter(function(x){return x.id!==id});save()}
-  function extraLabel(p){
-    var arr=schedulesFor(p.employeeId,new Date(p.time)),pd=new Date(p.time),mins=pd.getHours()*60+pd.getMinutes(),type=p.type;
-    if(!arr.length)return '<span class="pill warn">Sin horario</span>';
-    var inside=false,courtesy=false;
-    for(var i=0;i<arr.length;i++){
-      var entrada=min(arr[i].in),salida=min(arr[i].out);
-      if(mins>=entrada&&mins<=salida)inside=true;
-      if(type==='entrada' && mins>=entrada-10 && mins<entrada) courtesy=true;
-      if(type==='salida' && mins>salida && mins<=salida+10) courtesy=true;
-    }
-    if(courtesy)return '<span class="pill warn">No computable</span>';
-    if(inside)return '<span class="pill ok">Horario base</span>';
-    var auth=false;for(var j=0;j<state.extraAuth.length;j++)if(state.extraAuth[j].employeeId===p.employeeId&&state.extraAuth[j].date===dkey(p.time))auth=true;
-    return auth?'<span class="pill ok">Extra autorizada</span>':'<span class="pill bad">Fuera de horario</span>'
-  }
-  function extraLabelText(p){return extraLabel(p).replace(/<[^>]*>/g,'')}
-  function renderLegal(){var head='<tr><th>Fecha</th><th>Hora</th><th>Empleado</th><th>Evento</th><th>Dispositivo</th><th>Clasificación</th><th>Huella</th></tr>',rows='';for(var i=state.punches.length-1;i>=0;i--){var p=state.punches[i],e=findEmp(p.employeeId)||{};rows+='<tr><td>'+fmtDate(p.time)+'</td><td>'+fmtTime(p.time)+'</td><td>'+esc(e.name||'Eliminado')+'</td><td>'+label(p.type)+'</td><td>'+p.device+'</td><td>'+extraLabel(p)+'</td><td>'+esc(p.hash)+'</td></tr>'}if(el('legalTable'))el('legalTable').innerHTML=head+rows;if(el('exportTable'))el('exportTable').innerHTML=head+rows}
-  function startOfWeek(d){var x=new Date(d),day=(x.getDay()+6)%7;x.setDate(x.getDate()-day);x.setHours(0,0,0,0);return x} function moveWeek(n){weekStart.setDate(weekStart.getDate()+7*n);renderCalendar()} function todayWeekFn(){weekStart=startOfWeek(new Date());renderCalendar()} function renderCalendar(){if(!el('calGrid'))return;var days=[],i;for(i=0;i<7;i++){var d=new Date(weekStart);d.setDate(d.getDate()+i);days.push(d)}el('weekLabel').textContent='Semana del '+fmtDate(days[0])+' al '+fmtDate(days[6]);var html='<div class="cell head">Hora</div>';for(i=0;i<days.length;i++)html+='<div class="cell head">'+days[i].toLocaleDateString('es-ES',{weekday:'short',day:'2-digit'})+'</div>';for(var h=7;h<=21;h++){html+='<div class="cell hour">'+String(h).padStart(2,'0')+':00</div>';for(var j=0;j<days.length;j++){var ds=dkey(days[j]),ev='';for(var k=0;k<state.punches.length;k++){var p=state.punches[k],pd=new Date(p.time),e=findEmp(p.employeeId)||{};if(dkey(p.time)===ds&&pd.getHours()===h)ev+='<div class="event">'+fmtTime(p.time)+' '+esc(e.name||'')+'<br>'+label(p.type)+'</div>'}if(h===7){for(var aa=0;aa<state.absences.length;aa++){var ab=state.absences[aa],ee=ab.employeeId==='all'?{name:'Todos'}:(findEmp(ab.employeeId)||{});if(ds>=ab.start&&ds<=ab.end)ev+='<div class="event">'+esc(ab.type)+'<br>'+esc(ee.name||'')+'</div>'}}html+='<div class="cell">'+ev+'</div>'}}el('calGrid').innerHTML=html}
-  function exportCSV(){var rows=[['Fecha','Hora','Empleado','Email','Evento','Dispositivo','Clasificacion','Huella']];for(var i=0;i<state.punches.length;i++){var p=state.punches[i],e=findEmp(p.employeeId)||{};rows.push([fmtDate(p.time),fmtTime(p.time),e.name||'',e.email||'',label(p.type),p.device,extraLabel(p).replace(/<[^>]*>/g,''),p.hash])}var csv=rows.map(function(r){return r.map(function(x){return '"'+String(x).replace(/"/g,'""')+'"'}).join(';')}).join('\n');var a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));a.download='Ynea_Control_horario.csv';a.click()}
-  function bind(){el('loginBtn').onclick=login;el('logoutBtn').onclick=logout;el('tabAdmin').onclick=function(){tab('admin')};el('tabCalendar').onclick=function(){tab('calendar')};el('tabLegal').onclick=function(){tab('legal')};el('tabExport').onclick=function(){tab('export')};el('pEntrada').onclick=function(){punch('entrada')};el('pSalida').onclick=function(){punch('salida')};el('pPausaIni').onclick=function(){punch('pausa_inicio')};el('pPausaFin').onclick=function(){punch('pausa_fin')};el('addEmpBtn').onclick=addEmployee;el('scheduleMode').onchange=modeSchedule;el('addSchBtn').onclick=addSchedule;el('addExtraBtn').onclick=addExtra;el('addAbsenceBtn').onclick=addAbsence;el('scheduleViewMode').onchange=renderSchedules;el('scheduleEmp').onchange=renderSchedules;el('prevWeek').onclick=function(){moveWeek(-1)};el('todayWeek').onclick=todayWeekFn;el('nextWeek').onclick=function(){moveWeek(1)};el('exportBtn').onclick=exportCSV;el('pass').addEventListener('keydown',function(e){if(e.key==='Enter')login()});el('employeeSelect').addEventListener('change',fillSavedPass);el('pass').addEventListener('input',function(){var id=el('employeeSelect').value;if(id)saveKey(id,el('pass').value||'')})}
-  document.addEventListener('DOMContentLoaded',async function(){await load();populateEmployeeSelect();bind();modeSchedule();renderClock();setInterval(renderClock,1000);setInterval(checkReminders,60000)});
-})();
-</script>
-
-<script>
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', function () {
-    navigator.serviceWorker.register('/service-worker.js').catch(function () {});
-  });
+const $=id=>document.getElementById(id);
+function seed(){return {
+ employees:[
+  {id:'admin',name:'Administrador',email:'admin@ynea.es',pass:'1234',role:'admin',blocked:false,blockReason:''},
+  {id:'susana',name:'Susana',email:'susana@ynea.es',pass:'1234',role:'employee',blocked:false,blockReason:''}
+ ],
+ punches:[],
+ schedules:[
+  {id:'s1',employeeId:'susana',mode:'weekly',day:'1',in:'09:00',out:'14:00'},
+  {id:'s2',employeeId:'susana',mode:'weekly',day:'1',in:'16:00',out:'20:00'},
+  {id:'s3',employeeId:'susana',mode:'weekly',day:'2',in:'09:00',out:'14:00'},
+  {id:'s4',employeeId:'susana',mode:'weekly',day:'3',in:'09:00',out:'14:00'},
+  {id:'s5',employeeId:'susana',mode:'weekly',day:'4',in:'09:00',out:'14:00'},
+  {id:'s6',employeeId:'susana',mode:'weekly',day:'5',in:'09:00',out:'14:00'}
+ ],
+ absences:[], extraAuth:[], sent:{}
+}}
+function ensure(){state=state||seed();['employees','punches','schedules','absences','extraAuth'].forEach(k=>state[k]=state[k]||[]);state.sent=state.sent||{};
+ if(!state.employees.find(e=>e.email==='admin@ynea.es'))state.employees.unshift({id:'admin',name:'Administrador',email:'admin@ynea.es',pass:'1234',role:'admin',blocked:false,blockReason:''});
+ if(!state.employees.find(e=>e.email==='susana@ynea.es'))state.employees.push({id:'susana',name:'Susana',email:'susana@ynea.es',pass:'1234',role:'employee',blocked:false,blockReason:''});
 }
-</script>
-
-<script>
-/* REPARACIÓN DEFINITIVA DESPLEGABLE DE EMPLEADOS EN ACREDITACIÓN */
-(function(){
-  function ensureLoginEmployees(){
-    var select = document.getElementById('employeeSelect') || document.querySelector('select');
-    if(!select) return;
-
-    var employees = [];
-
-    try {
-      if (window.state && Array.isArray(window.state.employees)) {
-        employees = window.state.employees.filter(function(e){ return !e.blocked; });
-      }
-    } catch(e){}
-
-    if(!employees.length){
-      employees = [
-        {id:'admin', name:'Administrador', pass:'1234', role:'admin'},
-        {id:'susana', name:'Susana', pass:'1234', role:'employee'}
-      ];
-    }
-
-    var current = select.value || localStorage.getItem('ynea_saved_employee_selected') || '';
-    select.innerHTML = employees.map(function(e){
-      return '<option value="'+e.id+'">'+e.name+'</option>';
-    }).join('');
-
-    if(current && employees.some(function(e){ return e.id === current; })){
-      select.value = current;
-    }
-
-    var pass = document.getElementById('pass') || document.querySelector('input[type="password"]');
-    if(pass){
-      try {
-        var saved = JSON.parse(localStorage.getItem('ynea_saved_employee_keys') || '{}');
-        if(saved[select.value]) pass.value = saved[select.value];
-      } catch(e){}
-    }
-
-    select.onchange = function(){
-      localStorage.setItem('ynea_saved_employee_selected', select.value);
-      var pass = document.getElementById('pass') || document.querySelector('input[type="password"]');
-      if(pass){
-        try {
-          var saved = JSON.parse(localStorage.getItem('ynea_saved_employee_keys') || '{}');
-          pass.value = saved[select.value] || '';
-        } catch(e){}
-      }
-    };
-  }
-
-  document.addEventListener('DOMContentLoaded', ensureLoginEmployees);
-  window.addEventListener('load', ensureLoginEmployees);
-  setTimeout(ensureLoginEmployees, 300);
-  setTimeout(ensureLoginEmployees, 1000);
+function esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
+function emp(id){return state.employees.find(e=>e.id===id)}
+function dkey(d){let x=new Date(d);return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')+'-'+String(x.getDate()).padStart(2,'0')}
+function monthKey(d){let x=new Date(d);return x.getFullYear()+'-'+String(x.getMonth()+1).padStart(2,'0')}
+function fmtDate(d){return new Date(d).toLocaleDateString('es-ES')}
+function fmtTime(d){return new Date(d).toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'})}
+function label(t){return {entrada:'Entrada',salida:'Salida',pausa_inicio:'Inicio pausa',pausa_fin:'Fin pausa'}[t]||t}
+function toast(t){$('toast').textContent=t;$('toast').classList.remove('hidden');setTimeout(()=>$('toast').classList.add('hidden'),2200)}
+function startOfWeek(d){let x=new Date(d),day=(x.getDay()+6)%7;x.setDate(x.getDate()-day);x.setHours(0,0,0,0);return x}
+function daysFor(period){let now=new Date(),days=[]; if(period==='month'){let first=new Date(now.getFullYear(),now.getMonth(),1),last=new Date(now.getFullYear(),now.getMonth()+1,0);for(let d=new Date(first);d<=last;d.setDate(d.getDate()+1))days.push(new Date(d));} else {let ws=startOfWeek(now);for(let i=0;i<7;i++){let d=new Date(ws);d.setDate(d.getDate()+i);days.push(d)}} return days}
+async function load(){try{state=JSON.parse(localStorage.getItem(LS))||seed()}catch(e){state=seed()} ensure(); localStorage.setItem(LS,JSON.stringify(state));
+ try{if(window.supabase){supa=window.supabase.createClient(SUPABASE_URL,SUPABASE_ANON_KEY);let res=await supa.from(CLOUD_TABLE).select('data').eq('id',CLOUD_ID).maybeSingle(); if(res && res.data && res.data.data){state=res.data.data;ensure();localStorage.setItem(LS,JSON.stringify(state));} else {await supa.from(CLOUD_TABLE).upsert({id:CLOUD_ID,data:state,updated_at:new Date().toISOString()})} subscribe();}}catch(e){console.warn(e)}}
+function subscribe(){if(!supa)return; try{supa.channel('ynea_clean_realtime').on('postgres_changes',{event:'*',schema:'public',table:CLOUD_TABLE,filter:'id=eq.'+CLOUD_ID},payload=>{if(payload?.new?.data){remote=true;state=payload.new.data;ensure();localStorage.setItem(LS,JSON.stringify(state));renderAll();remote=false;}}).subscribe();}catch(e){console.warn(e)}}
+function save(){ensure();localStorage.setItem(LS,JSON.stringify(state)); if(supa&&!remote) supa.from(CLOUD_TABLE).upsert({id:CLOUD_ID,data:state,updated_at:new Date().toISOString()}); renderAll();}
+function populateLogin(){let sel=$('employeeSelect'); if(!sel)return; let cur=sel.value||localStorage.getItem(SEL_LS)||''; sel.innerHTML=state.employees.filter(e=>!e.blocked).map(e=>`<option value="${e.id}">${esc(e.name)}</option>`).join(''); if(cur&&emp(cur)&&!emp(cur).blocked)sel.value=cur; fillPass();}
+function fillPass(){let sel=$('employeeSelect'), p=$('pass'); if(!sel||!p)return; localStorage.setItem(SEL_LS,sel.value); try{let keys=JSON.parse(localStorage.getItem(KEY_LS)||'{}'); if(keys[sel.value])p.value=keys[sel.value];}catch(e){}}
+function savePass(id,pass){try{let keys=JSON.parse(localStorage.getItem(KEY_LS)||'{}'); keys[id]=pass; localStorage.setItem(KEY_LS,JSON.stringify(keys)); localStorage.setItem(SEL_LS,id)}catch(e){}}
+function login(){let id=$('employeeSelect').value, pass=$('pass').value||'', e=emp(id); if(!e){$('loginError').textContent='Selecciona un empleado';return} if(e.blocked){$('loginError').textContent='Empleado bloqueado: '+(e.blockReason||'');return} if(String(e.pass)!==String(pass)){$('loginError').textContent='Clave incorrecta';return} user=e; savePass(id,pass); $('loginError').textContent=''; $('login').classList.add('hidden'); $('app').classList.remove('hidden'); document.body.classList.toggle('employee',e.role!=='admin'); $('who').textContent=e.name; tab('home'); requestNotifications(); renderAll();}
+function logout(){user=null;$('app').classList.add('hidden');$('login').classList.remove('hidden');populateLogin();}
+function tab(id){document.querySelectorAll('.page').forEach(p=>p.classList.add('hidden'));$(id).classList.remove('hidden');document.querySelectorAll('.tabs button').forEach(b=>b.classList.toggle('active',b.dataset.tab===id));renderAll();}
+function requestNotifications(){if('Notification'in window && Notification.permission==='default')Notification.requestPermission().catch(()=>{})}
+function notify(msg){toast(msg); if('Notification'in window && Notification.permission==='granted')new Notification('Control Horario',{body:msg,icon:'/icon-192.png'})}
+function punch(type){if(!user)return; let p={id:'p'+Date.now()+Math.floor(Math.random()*999),employeeId:user.id,type,time:new Date().toISOString(),device:/Mobi|Android|iPhone/i.test(navigator.userAgent)?'Móvil':'PC'}; p.hash=btoa(unescape(encodeURIComponent(p.employeeId+p.type+p.time))).slice(0,18); state.punches.push(p); save(); notify(label(type)+' registrada a las '+fmtTime(p.time));}
+function renderClock(){let now=new Date();$('clock').textContent=now.toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'});$('todayText').textContent=now.toLocaleDateString('es-ES',{weekday:'long',day:'2-digit',month:'long',year:'numeric'})}
+function renderHome(){if(!user)return; renderMyCalendar();}
+function renderMyCalendar(){let cont=$('myCalendar'); if(!cont||!user)return; let days=daysFor(currentMy); cont.innerHTML=days.map(day=>dayHtml(day,state.punches.filter(p=>p.employeeId===user.id&&dkey(p.time)===dkey(day)))).join('');}
+function dayHtml(day,events){let html=`<div class="day"><h4>${day.toLocaleDateString('es-ES',{weekday:'short',day:'2-digit'})}</h4>`; if(!events.length)html+='<div class="event">Sin registros</div>'; events.sort((a,b)=>new Date(a.time)-new Date(b.time)).forEach(p=>html+=`<div class="event ${p.type==='salida'?'out':''}"><b>${fmtTime(p.time)}</b><br>${label(p.type)}</div>`); return html+'</div>';}
+function renderAdmin(){if(!user||user.role!=='admin')return; $('kEmp').textContent=state.employees.length; $('kPunch').textContent=state.punches.length; $('kOpen').textContent=state.employees.filter(e=>{let last=[...state.punches].reverse().find(p=>p.employeeId===e.id);return last&&last.type==='entrada'}).length;
+ let opts=state.employees.map(e=>`<option value="${e.id}">${esc(e.name)}</option>`).join('');
+ ['scheduleEmp','extraEmp'].forEach(id=>$(id).innerHTML=opts); $('absenceEmp').innerHTML='<option value="all">Toda la plantilla / festivo general</option>'+opts;
+ let filter=$('adminEmpFilter'), prev=filter.value||'all'; filter.innerHTML='<option value="all">Todos los empleados</option>'+opts; filter.value=(prev==='all'||emp(prev))?prev:'all';
+ renderEmpTable(); renderSchedules(); renderAbsences(); renderExtras(); renderAdminRecords();
+}
+function renderAdminRecords(){let id=$('adminEmpFilter').value, period=$('adminPeriod').value, days=daysFor(period), cont=$('adminRecords'); cont.innerHTML=days.map(day=>{let ev=state.punches.filter(p=>(id==='all'||p.employeeId===id)&&dkey(p.time)===dkey(day)); let html=`<div class="day"><h4>${day.toLocaleDateString('es-ES',{weekday:'short',day:'2-digit'})}</h4>`; if(!ev.length)html+='<div class="event">Sin registros</div>'; ev.sort((a,b)=>new Date(a.time)-new Date(b.time)).forEach(p=>{let e=emp(p.employeeId)||{name:'Empleado'}; html+=`<div class="event ${p.type==='salida'?'out':''}"><b>${fmtTime(p.time)}</b><br>${esc(e.name)}<br>${label(p.type)}</div>`}); return html+'</div>';}).join('');}
+function renderEmpTable(){let rows='<tr><th>Nombre</th><th>Email</th><th>Rol</th><th>Estado</th><th>Clave</th><th>Bloqueo</th></tr>'; state.employees.forEach(e=>rows+=`<tr><td>${esc(e.name)}</td><td>${esc(e.email)}</td><td><select data-role="${e.id}"><option value="employee" ${e.role==='employee'?'selected':''}>Empleado</option><option value="admin" ${e.role==='admin'?'selected':''}>Administrador</option></select><button data-change-role="${e.id}">Cambiar</button></td><td>${e.blocked?'<span class="pill bad">Bloqueado: '+esc(e.blockReason||'')+'</span>':'<span class="pill ok">Activo</span>'}</td><td><input data-pass="${e.id}" value="${esc(e.pass)}"><button data-change-pass="${e.id}">Guardar</button></td><td>${e.id===user.id?'—':`<select data-reason="${e.id}"><option>Baja laboral</option><option>Fin contrato</option><option>Otros</option></select><button class="danger" data-block="${e.id}">Bloquear</button><button data-unblock="${e.id}">Activar</button>`}</td></tr>`); $('empTable').innerHTML=rows;}
+function addEmployee(){if(!$('empName').value||!$('empEmail').value){alert('Rellena nombre y email');return} state.employees.push({id:'e'+Date.now(),name:$('empName').value,email:$('empEmail').value,pass:$('empPass').value||'1234',role:$('empRole').value,blocked:false,blockReason:''}); $('empName').value='';$('empEmail').value='';$('empPass').value='1234'; save(); populateLogin();}
+function modeSchedule(){let m=$('scheduleMode').value; $('scheduleDay').classList.toggle('hidden',m!=='weekly'); $('scheduleDate').classList.toggle('hidden',m!=='daily'); $('scheduleMonth').classList.toggle('hidden',m!=='monthly');}
+function addSchedule(){let m=$('scheduleMode').value, s={id:'s'+Date.now(),employeeId:$('scheduleEmp').value,mode:m,in:$('schIn').value,out:$('schOut').value}; if(m==='weekly')s.day=$('scheduleDay').value; if(m==='daily')s.date=$('scheduleDate').value||dkey(new Date()); if(m==='monthly')s.month=$('scheduleMonth').value||monthKey(new Date()); state.schedules.push(s); save();}
+function renderSchedules(){let rows='<tr><th>Empleado</th><th>Tipo</th><th>Día/fecha/mes</th><th>Franja</th><th></th></tr>',view=$('scheduleView').value,se=$('scheduleEmp').value; state.schedules.forEach(s=>{if(view==='employee'&&s.employeeId!==se)return; let e=emp(s.employeeId)||{}; let d=s.day?['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'][Number(s.day)]:(s.date||s.month||''); rows+=`<tr><td>${esc(e.name)}</td><td>${s.mode}</td><td>${esc(d)}</td><td>${s.in} - ${s.out}</td><td><button class="danger" data-del-sch="${s.id}">Eliminar</button></td></tr>`}); $('scheduleTable').innerHTML=rows;}
+function addAbsence(){let st=$('absenceStart').value,en=$('absenceEnd').value||st;if(!st){alert('Indica fecha');return} state.absences.push({id:'a'+Date.now(),employeeId:$('absenceEmp').value,type:$('absenceType').value,start:st,end:en,note:$('absenceNote').value||''}); $('absenceNote').value=''; save();}
+function renderAbsences(){let rows='<tr><th>Empleado</th><th>Tipo</th><th>Desde</th><th>Hasta</th><th>Observaciones</th><th></th></tr>'; state.absences.forEach(a=>{let e=a.employeeId==='all'?{name:'Toda la plantilla'}:(emp(a.employeeId)||{}); rows+=`<tr><td>${esc(e.name)}</td><td>${esc(a.type)}</td><td>${a.start}</td><td>${a.end}</td><td>${esc(a.note)}</td><td><button class="danger" data-del-abs="${a.id}">Eliminar</button></td></tr>`}); $('absenceTable').innerHTML=rows;}
+function addExtra(){state.extraAuth.push({id:'x'+Date.now(),employeeId:$('extraEmp').value,date:$('extraDate').value||dkey(new Date()),minutes:Number($('extraMin').value)||0,reason:$('extraReason').value||'Autorizado'}); $('extraReason').value=''; save();}
+function renderExtras(){let rows='<tr><th>Empleado</th><th>Fecha</th><th>Minutos</th><th>Motivo</th><th></th></tr>'; state.extraAuth.forEach(x=>{let e=emp(x.employeeId)||{}; rows+=`<tr><td>${esc(e.name)}</td><td>${x.date}</td><td>${x.minutes}</td><td>${esc(x.reason)}</td><td><button class="danger" data-del-extra="${x.id}">Eliminar</button></td></tr>`}); $('extraTable').innerHTML=rows;}
+function renderMainCalendar(){let days=[]; for(let i=0;i<7;i++){let d=new Date(weekStart);d.setDate(d.getDate()+i);days.push(d)} $('weekLabel').textContent='Semana del '+fmtDate(days[0])+' al '+fmtDate(days[6]); $('mainCalendar').innerHTML=days.map(day=>{let ev=state.punches.filter(p=>dkey(p.time)===dkey(day)); let html=`<div class="day"><h4>${day.toLocaleDateString('es-ES',{weekday:'short',day:'2-digit'})}</h4>`; if(!ev.length)html+='<div class="event">Sin registros</div>'; ev.forEach(p=>{let e=emp(p.employeeId)||{name:''}; html+=`<div class="event ${p.type==='salida'?'out':''}">${fmtTime(p.time)}<br>${esc(e.name)}<br>${label(p.type)}</div>`}); return html+'</div>';}).join('');}
+function renderLegal(){let head='<tr><th>Fecha</th><th>Hora</th><th>Empleado</th><th>Evento</th><th>Dispositivo</th><th>Huella</th></tr>', rows=''; [...state.punches].reverse().forEach(p=>{let e=emp(p.employeeId)||{}; rows+=`<tr><td>${fmtDate(p.time)}</td><td>${fmtTime(p.time)}</td><td>${esc(e.name||'')}</td><td>${label(p.type)}</td><td>${p.device}</td><td>${p.hash||''}</td></tr>`}); $('legalTable').innerHTML=head+rows; $('exportTable').innerHTML=head+rows;}
+function exportCSV(){let rows=[['Fecha','Hora','Empleado','Email','Evento','Dispositivo','Huella']]; state.punches.forEach(p=>{let e=emp(p.employeeId)||{}; rows.push([fmtDate(p.time),fmtTime(p.time),e.name||'',e.email||'',label(p.type),p.device,p.hash||''])}); let csv=rows.map(r=>r.map(x=>'"'+String(x).replace(/"/g,'""')+'"').join(';')).join('\n'); let a=document.createElement('a'); a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'})); a.download='Control_Horario.csv'; a.click();}
+function renderAll(){if(!state)return; renderClock(); if(user){renderHome();renderAdmin();renderMainCalendar();renderLegal();}}
+function bind(){$('loginBtn').addEventListener('click',login); $('pass').addEventListener('keydown',e=>{if(e.key==='Enter')login()}); $('employeeSelect').addEventListener('change',fillPass); $('pass').addEventListener('input',()=>savePass($('employeeSelect').value,$('pass').value||'')); $('logoutBtn').onclick=logout;
+ document.querySelectorAll('.tabs button').forEach(b=>b.onclick=()=>tab(b.dataset.tab));
+ $('btnIn').onclick=()=>punch('entrada'); $('btnOut').onclick=()=>punch('salida'); $('btnBreakIn').onclick=()=>punch('pausa_inicio'); $('btnBreakOut').onclick=()=>punch('pausa_fin');
+ $('myWeekBtn').onclick=()=>{currentMy='week';renderMyCalendar();}; $('myMonthBtn').onclick=()=>{currentMy='month';renderMyCalendar();};
+ $('adminEmpFilter').onchange=renderAdminRecords; $('adminPeriod').onchange=renderAdminRecords; $('addEmpBtn').onclick=addEmployee; $('scheduleMode').onchange=modeSchedule; $('scheduleView').onchange=renderSchedules; $('scheduleEmp').onchange=renderSchedules; $('addScheduleBtn').onclick=addSchedule; $('addAbsenceBtn').onclick=addAbsence; $('addExtraBtn').onclick=addExtra;
+ $('prevWeek').onclick=()=>{weekStart.setDate(weekStart.getDate()-7);renderMainCalendar()}; $('todayWeek').onclick=()=>{weekStart=startOfWeek(new Date());renderMainCalendar()}; $('nextWeek').onclick=()=>{weekStart.setDate(weekStart.getDate()+7);renderMainCalendar()};
+ $('exportBtn').onclick=exportCSV;
+ document.addEventListener('click',e=>{let t=e.target, id; if(id=t.dataset.changePass){let em=emp(id); em.pass=document.querySelector(`[data-pass="${id}"]`).value||'1234'; save();}
+ if(id=t.dataset.changeRole){let em=emp(id); if(em.id===user.id){alert('No puedes cambiar tu propio rol');return} em.role=document.querySelector(`[data-role="${id}"]`).value; save();}
+ if(id=t.dataset.block){let em=emp(id); em.blocked=true; em.blockReason=document.querySelector(`[data-reason="${id}"]`).value; save(); populateLogin();}
+ if(id=t.dataset.unblock){let em=emp(id); em.blocked=false; em.blockReason=''; save(); populateLogin();}
+ if(id=t.dataset.delSch){state.schedules=state.schedules.filter(s=>s.id!==id); save();}
+ if(id=t.dataset.delAbs){state.absences=state.absences.filter(a=>a.id!==id); save();}
+ if(id=t.dataset.delExtra){state.extraAuth=state.extraAuth.filter(x=>x.id!==id); save();}
+ });
+}
+document.addEventListener('DOMContentLoaded',async()=>{await load(); populateLogin(); bind(); modeSchedule(); renderAll(); setInterval(renderClock,1000);});
 })();
 </script>
-
+<script>
+if('serviceWorker' in navigator) window.addEventListener('load',()=>navigator.serviceWorker.register('/service-worker.js').catch(()=>{}));
+</script>
 </body>
 </html>

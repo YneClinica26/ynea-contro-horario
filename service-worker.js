@@ -1,36 +1,5 @@
-const CACHE_NAME = 'control-horario-v8-boton-entrar-activo';
-const APP_ASSETS = [
-  '/',
-  '/index.html',
-  '/manifest.webmanifest',
-  '/logo-ynea.png',
-  '/logo-ynea-real.png',
-  '/icon-192.png',
-  '/icon-512.png',
-  '/apple-touch-icon.png'
-];
-
-self.addEventListener('install', event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => cache.addAll(APP_ASSETS)).then(() => self.skipWaiting())
-  );
-});
-
-self.addEventListener('activate', event => {
-  event.waitUntil(
-    caches.keys().then(keys => Promise.all(keys.map(key => key !== CACHE_NAME ? caches.delete(key) : null))).then(() => self.clients.claim())
-  );
-});
-
-self.addEventListener('fetch', event => {
-  if (event.request.method !== 'GET') return;
-  event.respondWith(
-    fetch(event.request).then(response => {
-      const copy = response.clone();
-      caches.open(CACHE_NAME).then(cache => {
-        if (event.request.url.startsWith(self.location.origin)) cache.put(event.request, copy);
-      });
-      return response;
-    }).catch(() => caches.match(event.request).then(cached => cached || caches.match('/index.html')))
-  );
-});
+const CACHE_NAME='control-horario-clean-definitiva-v1';
+const ASSETS=['/','/index.html','/manifest.webmanifest','/logo-ynea.png','/icon-192.png','/icon-512.png','/apple-touch-icon.png'];
+self.addEventListener('install',e=>{self.skipWaiting();e.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(ASSETS).catch(()=>{})))});
+self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE_NAME).map(k=>caches.delete(k)))));self.clients.claim()});
+self.addEventListener('fetch',e=>{e.respondWith(fetch(e.request).catch(()=>caches.match(e.request)))});
