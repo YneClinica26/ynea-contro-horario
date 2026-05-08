@@ -1,4 +1,4 @@
-const CACHE_NAME = 'control-horario-v6-employees';
+const CACHE_NAME = 'control-horario-v7-login-ok';
 const APP_ASSETS = [
   '/',
   '/index.html',
