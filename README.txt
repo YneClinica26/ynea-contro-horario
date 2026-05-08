@@ -1,21 +1,22 @@
+Ynea Control horario - versión actualizada
 
-INSTRUCCIONES IMPORTANTES
+Acceso:
+- Elegir empleado en desplegable
+- Clave: 1234 para Administrador y Susana
 
-1. NO sustituyas toda la app.
-2. Solo copia estos archivos dentro de tu proyecto GitHub:
-   - manifest.webmanifest
-   - responsive-fix.css
+Cambios incluidos:
+- El acceso ya se hace por desplegable de empleado + clave.
+- La clave usada se guarda en el dispositivo para ese empleado.
+- Panel de usuario con registros de hoy, semanales y mensuales.
+- Eliminado el texto visible de cortesía.
+- Margen técnico de 10 minutos en entrada/salida que permite fichar pero no suma tiempo trabajado.
+- Administrador > Configuración horarios: vista solo del empleado elegido o resumen de todos.
+- Administrador puede añadir vacaciones, días libres, festivos y otros periodos.
+- Festivos generales se asignan a toda la plantilla.
 
-3. Luego en index.html añade dentro de <head>:
+Para probar:
+1. Descomprime el ZIP.
+2. Abre index.html en Chrome.
 
-<link rel="stylesheet" href="responsive-fix.css">
 
-4. Espera a que Vercel actualice.
-5. Elimina la app instalada antigua del móvil y PC.
-6. Vuelve a instalarla.
-
-Esto corrige:
-- nombre bajo icono: Control Horario
-- escala gigante en PC
-- desbordamiento móvil
-- apertura PWA
+Versión verde: color base de la app y logo en verde. El administrador puede cambiar el rol de cada empleado desde Empleados, claves y bloqueos.
