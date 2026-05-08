@@ -1,10 +1,22 @@
+Ynea Control horario - versión actualizada
 
-1. COPIAR admin-real.css y admin-real.js a la carpeta de la app
+Acceso:
+- Elegir empleado en desplegable
+- Clave: 1234 para Administrador y Susana
 
-2. En index.html añadir antes de </head>:
+Cambios incluidos:
+- El acceso ya se hace por desplegable de empleado + clave.
+- La clave usada se guarda en el dispositivo para ese empleado.
+- Panel de usuario con registros de hoy, semanales y mensuales.
+- Eliminado el texto visible de cortesía.
+- Margen técnico de 10 minutos en entrada/salida que permite fichar pero no suma tiempo trabajado.
+- Administrador > Configuración horarios: vista solo del empleado elegido o resumen de todos.
+- Administrador puede añadir vacaciones, días libres, festivos y otros periodos.
+- Festivos generales se asignan a toda la plantilla.
 
-<link rel="stylesheet" href="admin-real.css">
+Para probar:
+1. Descomprime el ZIP.
+2. Abre index.html en Chrome.
 
-3. Añadir antes de </body>:
 
-<script src="admin-real.js"></script>
+Versión verde: color base de la app y logo en verde. El administrador puede cambiar el rol de cada empleado desde Empleados, claves y bloqueos.
