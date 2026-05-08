@@ -1,13 +1,10 @@
 
-COPIAR ESTOS ARCHIVOS EN LA APP:
+1. COPIAR admin-real.css y admin-real.js a la carpeta de la app
 
-1. admin-pc-fix.css
-2. admin-global.js
+2. En index.html añadir antes de </head>:
 
-Y añadir en index.html antes de </head>:
+<link rel="stylesheet" href="admin-real.css">
 
-<link rel="stylesheet" href="admin-pc-fix.css">
+3. Añadir antes de </body>:
 
-Y antes de </body>:
-
-<script src="admin-global.js"></script>
+<script src="admin-real.js"></script>
