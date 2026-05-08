@@ -6,7 +6,7 @@
   <title>Control Horario</title>
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="theme-color" content="#8CCFB2">
-  <meta name="application-name" content="Control Horario">
+  <meta name="application-name" content="Ynea Control Horario">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-title" content="Control Horario">
   <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -310,58 +310,6 @@
   .brand img{width:58px!important;max-width:58px!important;}
   .time{font-size:22px!important;}
   .actions{grid-template-columns:1fr!important;}
-}
-
-
-/* ===== FIX FINAL DE ESCALA PC/MÓVIL ===== */
-html, body {
-  width: 100%;
-  max-width: 100%;
-  overflow-x: hidden;
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
-}
-* { box-sizing: border-box; }
-img { max-width: 100%; height: auto; }
-#login, #app { width: 100%; max-width: 100%; }
-@media (min-width: 901px) {
-  .wrap { max-width: 1180px !important; width: calc(100% - 28px) !important; }
-  .card { max-width: 100%; }
-  .loginbox { max-width: 420px !important; }
-  .logoLogin { width: 210px !important; }
-  .cal { max-width: 100%; overflow-x: auto; }
-}
-@media (max-width: 900px) {
-  body { font-size: 13px !important; }
-  .login { padding: 12px !important; min-height: 100svh !important; }
-  .loginbox { width: 100% !important; max-width: 340px !important; padding: 14px !important; border-radius: 18px !important; }
-  .logoLogin { width: 145px !important; max-width: 62% !important; }
-  .control { font-size: 11px !important; letter-spacing: .16em !important; margin-bottom: 10px !important; }
-  input, select, textarea, button { font-size: 13px !important; }
-  input, select, textarea { padding: 8px 9px !important; min-height: 36px !important; }
-  button { padding: 8px 10px !important; min-height: 34px !important; }
-  .top { padding: 7px !important; gap: 6px !important; }
-  .brand img { width: 64px !important; }
-  .brand span { display: none !important; }
-  .brand b { font-size: 11px !important; white-space: nowrap !important; }
-  .user { font-size: 10px !important; gap: 4px !important; max-width: 48% !important; }
-  .wrap { width: 100% !important; max-width: 100% !important; padding: 7px !important; margin: 0 !important; }
-  .grid, .cols2, .cols3 { grid-template-columns: 1fr !important; gap: 8px !important; }
-  .card { width: 100% !important; max-width: 100% !important; padding: 10px !important; border-radius: 14px !important; }
-  h2 { font-size: 16px !important; margin-bottom: 7px !important; }
-  h3 { font-size: 14px !important; margin-bottom: 7px !important; }
-  .time { font-size: 24px !important; }
-  .actions { display: grid !important; grid-template-columns: 1fr 1fr !important; gap: 7px !important; }
-  .miniCal, .miniCal.month { grid-template-columns: 1fr !important; min-width: 0 !important; width: 100% !important; }
-  .miniDay { min-height: auto !important; }
-  .scroll { overflow-x: auto !important; max-width: 100% !important; }
-  table { min-width: 520px !important; font-size: 11px !important; }
-  .cal { min-width: 720px !important; grid-template-columns: 44px repeat(7,92px) !important; }
-}
-@media (max-width: 390px) {
-  .loginbox { max-width: 310px !important; padding: 12px !important; }
-  .logoLogin { width: 130px !important; }
-  .actions { grid-template-columns: 1fr !important; }
 }
 
 </style>
